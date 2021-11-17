@@ -16,3 +16,7 @@ class PlayerInterface(ABC):
     @abstractmethod
     def set_rolled_dices(self, numbers: list[int]):
         pass
+
+
+def pp():
+    print("ciao")
