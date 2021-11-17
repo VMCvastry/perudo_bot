@@ -1,8 +1,7 @@
-from gameMove import GameMove
-import random
+from perudo_game.game.gameMove import GameMove
 
-from game_info import GameInfo
-from players import PlayerInterface
+from perudo_game.game.game_info import GameInfo
+from perudo_game.players import PlayerInterface
 
 
 class HumanPlayer(PlayerInterface):

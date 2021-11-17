@@ -1,29 +1,36 @@
 import random
 
-from gameMove import GameMove
-from gameStatus import GameStatus
+from game.gameMove import GameMove
+from game.gameStatus import GameStatus
+from game.player_entity import PlayerEntity
+from players import PlayerInterface
 from players.player1 import Bot1
-from player_entity import PlayerEntity
 from players.player2 import HumanPlayer
-from ui import UI
-from ui.cli import CLI
+from ui import UI, CLI
 
 
 def roll_dice() -> int:
     return random.randint(1, 6)
 
 
+# self.players = {
+#     0: PlayerEntity(Bot1(0), 0),
+#     1: PlayerEntity(HumanPlayer(1), 1),
+# }
+# self.players = {
+#     i: PlayerEntity(player(i), i) for i, player in enumerate(players)
+# }
 class Game:
-    def __init__(self, ui: UI):
-        # self.players = {x: PlayerEntity(HumanPlayer(x), x) for x in range(3)}
+    def __init__(self, game_players: dict[int, PlayerInterface], selected_ui: UI):
+
         self.players = {
-            0: PlayerEntity(Bot1(0), 0),
-            1: PlayerEntity(HumanPlayer(1), 1),
+            i: PlayerEntity(player, i) for i, player in game_players.items()
         }
+
         self.n_players = len(self.players)
         self.game_status = GameStatus(list(self.players.values()))
         self.next_player_id = random.randint(0, self.n_players - 1)
-        self.ui = ui
+        self.ui = selected_ui
 
     def on_going(self):
         return len(self.game_status.players) != 1
@@ -79,8 +86,13 @@ class Game:
                 move.player_id = player.id
                 self.evaluate_move(move)
         print(f"player {self.next_player_id} won")
+        return self.next_player_id
 
 
 if __name__ == "__main__":
     ui = CLI()
-    Game(ui).start()
+    players = {
+        0: Bot1(0),
+        1: HumanPlayer(1),
+    }
+    Game(players, ui).start()

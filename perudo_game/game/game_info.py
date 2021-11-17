@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from gameMove import GameMove
-from player_entity import PlayerEntity
+from .gameMove import GameMove
+from .player_entity import PlayerEntity
 
 
 @dataclass

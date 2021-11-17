@@ -1,0 +1,1 @@
+from perudo_game.players.playerInterface import PlayerInterface

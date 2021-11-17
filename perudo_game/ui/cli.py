@@ -1,7 +1,8 @@
-from gameMove import GameMove
-from gameStatus import GameStatus
-from ui import UI
 import os
+
+from perudo_game.game.gameMove import GameMove
+from perudo_game.game.gameStatus import GameStatus
+from perudo_game.ui import UI
 
 
 class CLI(UI):

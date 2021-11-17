@@ -1,9 +1,8 @@
-from gameMove import GameMove
-from gameStatus import GameStatus
-from game_info import GameInfo
-from players import PlayerInterface
 from collections import Counter
-import random
+
+from perudo_game.game.gameMove import GameMove
+from perudo_game.game.game_info import GameInfo
+from perudo_game.players import PlayerInterface
 
 
 class BotTest(PlayerInterface):

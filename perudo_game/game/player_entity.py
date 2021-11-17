@@ -1,8 +1,9 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from players import PlayerInterface
+    from perudo_game.players import PlayerInterface
 
 
 class PlayerEntity:

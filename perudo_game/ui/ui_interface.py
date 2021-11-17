@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-from gameMove import GameMove
-from gameStatus import GameStatus
+from perudo_game.game.gameMove import GameMove
+from perudo_game.game.gameStatus import GameStatus
 
 
 class UI(ABC):

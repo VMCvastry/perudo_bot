@@ -1,7 +1,8 @@
-from gameMove import GameMove
-from game_info import GameInfo
-from player_entity import PlayerEntity
 from copy import deepcopy
+
+from perudo_game.game.gameMove import GameMove
+from perudo_game.game.game_info import GameInfo
+from .player_entity import PlayerEntity
 
 
 # TODO pass copy to user

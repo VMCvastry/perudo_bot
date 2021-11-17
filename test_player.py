@@ -1,9 +1,9 @@
 import unittest
 
-from game_info import GameInfo
-from player_entity import PlayerEntity
-from players import PlayerInterface
-from players.playerTest import BotTest
+from perudo_game.game.game_info import GameInfo
+from perudo_game.game.player_entity import PlayerEntity
+from perudo_game.players import PlayerInterface
+from perudo_game.players.playerTest import BotTest
 
 
 class MyTestCase(unittest.TestCase):
