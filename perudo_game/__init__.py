@@ -1,1 +1,1 @@
-from perudo_game.game_core import Game
+# from perudo_game.game_core import Game
