@@ -1,4 +1,4 @@
-from GameMove import GameMove
+from gameMove import GameMove
 from gameStatus import GameStatus
 from ui import UI
 import os
@@ -15,7 +15,7 @@ class CLI(UI):
 
     def show_round(self, moves: list[GameMove]):
         print("pastmoves")
-        print(moves)
+        print(moves[-1])
 
     def show_round_check(self, game: GameStatus):
         print("the dices are")
@@ -26,5 +26,6 @@ class CLI(UI):
         print(numbers)
 
     def show_result(self, result):
-        print("he won")
+        # print("he won")
         print(result)
+        input("continue")

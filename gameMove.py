@@ -5,5 +5,4 @@ from dataclasses import dataclass
 class GameMove:
     number: int
     amount: int
-    player_id: int=None
-
+    player_id: int = None

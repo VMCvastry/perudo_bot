@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-from GameMove import GameMove
-from gameStatus import GameStatus
+from gameMove import GameMove
+from game_info import GameInfo
 
 
 class PlayerInterface(ABC):
@@ -10,7 +10,7 @@ class PlayerInterface(ABC):
         pass
 
     @abstractmethod
-    def make_a_move(self, status: GameStatus) -> GameMove:
+    def make_a_move(self, status: GameInfo) -> GameMove:
         pass
 
     @abstractmethod

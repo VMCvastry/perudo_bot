@@ -1,6 +1,7 @@
-from GameMove import GameMove
+from gameMove import GameMove
 import random
-from gameStatus import GameStatus
+
+from game_info import GameInfo
 from players import PlayerInterface
 
 
@@ -13,7 +14,7 @@ class HumanPlayer(PlayerInterface):
     def get_player_name(self) -> str:
         return self.name
 
-    def make_a_move(self, status: GameStatus) -> GameMove:
+    def make_a_move(self, status: GameInfo) -> GameMove:
         n = input("amount")
         if not n:
             return None

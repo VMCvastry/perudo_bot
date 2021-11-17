@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from GameMove import GameMove
+from gameMove import GameMove
 from gameStatus import GameStatus
 
 
