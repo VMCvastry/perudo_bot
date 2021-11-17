@@ -1,7 +1,5 @@
 from dataclasses import dataclass
 
-from playerInterface import PlayerInterface
-
 
 @dataclass
 class GameMove:
