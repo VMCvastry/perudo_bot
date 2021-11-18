@@ -3,7 +3,7 @@ from perudo_game.players import PlayerInterface
 
 
 def get_sandbox_bot(bot: Bot) -> PlayerInterface:
-    global_scope = {"__builtins__": __builtins__.__dict__.copy()}
+    global_scope = {"__builtins__": __builtins__.copy()}
     # print(global_scope["__builtins__"])
     del global_scope["__builtins__"]["print"]
     # print(PlayerInterface.__dict__)

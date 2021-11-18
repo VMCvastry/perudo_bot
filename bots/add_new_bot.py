@@ -1,9 +1,9 @@
 import traceback
 
-from bot_class import Bot
+from .bot_class import Bot
 from perudo_game.players import PlayerInterface
 from database import Database
-from sandbox import get_sandbox_bot
+from bots import get_sandbox_bot
 
 
 def test_new_bot(player: PlayerInterface):
@@ -25,3 +25,5 @@ def test_and_save_new_bot(db: Database, user_id, code):
     bot = get_new_bot(user_id, code)
     if bot:
         db.add_bot(bot)
+        return True
+    return False

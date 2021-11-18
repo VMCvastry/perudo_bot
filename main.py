@@ -1,5 +1,5 @@
-from database import Database
 from bots.sandbox import get_sandbox_bot
+from database import Database
 import logging
 
 logging.basicConfig(
@@ -22,5 +22,5 @@ db = Database("./bots.db")
 # bot = read_bot_file("code.txt")
 # a = db.add_bot(bot)
 # print(a)
-bot = db.get_bot(6)
+bot = db.get_bot(1)
 get_sandbox_bot(bot)
