@@ -1,5 +1,16 @@
 from database import Database
 from bots.sandbox import get_sandbox_bot
+import logging
+
+logging.basicConfig(
+    level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+
+
+# logger = logging.getLogger()
+# logger.setLevel(logging.INFO)
+#
+# logger.setLevel(logging.DEBUG)
 
 
 def read_file(path) -> str:
