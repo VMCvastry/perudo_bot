@@ -1,14 +1,14 @@
-class Bot1(PlayerInterface):
-    # TODO player_id in abstract interface
+class Player(PlayerInterface):
+    # TODO player_id in abstract interface, static name
     def __init__(self, player_id: int):
-        self.name = "Bot_" + str(player_id)
+        self.name = "Bot3"
         self.numbers = []
 
     def get_player_name(self) -> str:
         return self.name
 
     def make_a_move(self, status):
-        print("MOVING")
+        print("MOVING", self.name)
         numbers = Counter(self.numbers)
         value, n = numbers.most_common(1)[0]
         if status.first_call:

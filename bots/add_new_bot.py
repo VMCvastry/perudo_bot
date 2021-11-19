@@ -10,7 +10,7 @@ def test_new_bot(player: PlayerInterface):
     return True
 
 
-def get_new_bot(user_id, code) -> Bot:
+def get_new_bot(user_id, code) -> (Bot, PlayerInterface):
     bot = Bot(None, None, user_id, code)
     try:
         player = get_sandbox_bot(bot)(0)
@@ -20,10 +20,9 @@ def get_new_bot(user_id, code) -> Bot:
     except Exception as e:
         traceback.print_exc()
 
-
-def test_and_save_new_bot(db: Database, user_id, code):
-    bot = get_new_bot(user_id, code)
-    if bot:
-        db.add_bot(bot)
-        return True
-    return False
+# def test_and_save_new_bot(db: Database, user_id, code):
+#     bot = get_new_bot(user_id, code)
+#     if bot:
+#         db.add_bot(bot)
+#         return True
+#     return False

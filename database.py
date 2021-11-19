@@ -46,8 +46,8 @@ class Database:
         try:
             if not self.sqliteConnection:
                 self.open()
-            query = """INSERT INTO bots (id,name,user_id,code) VALUES (?,?,?,?);"""
-            data = (None, bot.name, bot.user_id, bot.code)
+            query = "INSERT INTO bots (id,name,user_id,code, victory, defeat) VALUES (?,?,?,?,?,?);"
+            data = (None, bot.name, bot.user_id, bot.code, bot.victory, bot.defeat)
             self.cursor.execute(query, data)
             self.commit()
             self.cursor.execute("SELECT last_insert_rowid()")
@@ -55,14 +55,63 @@ class Database:
         except sqlite3.Error as error:
             print(f"Error while adding bot", error)
 
-    def get_bot(self, bot_id) -> Bot:
-        # try:
-        if not self.sqliteConnection:
-            self.open()
-        query = """select * from bots where id == ?"""
-        self.cursor.execute(query, (bot_id,))
-        bot = self.cursor.fetchone()
-        return Bot(bot["id"], bot["name"], bot["user_id"], bot["code"])
+    def add_victory(self, bot_id):
+        try:
+            if not self.sqliteConnection:
+                self.open()
+            query = "UPDATE bots SET victory = victory + 1 WHERE id = ?"
+            data = (bot_id,)
+            self.cursor.execute(query, data)
+            self.commit()
+        except sqlite3.Error as error:
+            print(f"Error while incrementig victory bot", error)
 
-    # except sqlite3.Error as error:
-    #     print(f"Error while getting bot", error)
+    def add_defeat(self, bot_id):
+        try:
+            if not self.sqliteConnection:
+                self.open()
+            query = "UPDATE bots SET defeat = defeat + 1 WHERE id = ?"
+            data = (bot_id,)
+            self.cursor.execute(query, data)
+            self.commit()
+        except sqlite3.Error as error:
+            print(f"Error while incrementig defeat bot", error)
+
+    def get_bot(self, bot_id) -> Bot:
+        try:
+            if not self.sqliteConnection:
+                self.open()
+            query = "select * from bots where id == ?"
+            self.cursor.execute(query, (bot_id,))
+            bot = self.cursor.fetchone()
+            return Bot(
+                bot["id"],
+                bot["name"],
+                bot["user_id"],
+                bot["code"],
+                bot["victory"],
+                bot["defeat"],
+            )
+        except sqlite3.Error as error:
+            print(f"Error while getting bot", error)
+
+    def get_all_bots(self) -> list[Bot]:
+        try:
+            if not self.sqliteConnection:
+                self.open()
+            query = """select * from bots"""
+            self.cursor.execute(query)
+            bots = self.cursor.fetchall()
+            return [
+                Bot(
+                    bot["id"],
+                    bot["name"],
+                    bot["user_id"],
+                    bot["code"],
+                    bot["victory"],
+                    bot["defeat"],
+                )
+                for bot in bots
+            ]
+        except sqlite3.Error as error:
+            print(f"Error while getting all bots", error)

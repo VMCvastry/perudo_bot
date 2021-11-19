@@ -27,4 +27,6 @@ db = Database("./bots.db")
 
 # with open("./test.py", "r") as f:
 #     get_new_bot(0, f.read())
-get_sandbox_bot(db.get_bot(4))(1)
+status = None
+b = get_sandbox_bot(db.get_bot(4))(1)
+b.make_a_move(status)

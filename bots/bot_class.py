@@ -8,3 +8,5 @@ class Bot:
     name: str | None
     user_id: int
     code: str
+    victory: int = 0
+    defeat: int = 0

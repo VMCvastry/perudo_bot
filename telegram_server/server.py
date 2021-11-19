@@ -1,3 +1,5 @@
+import logging
+
 from telegram_server.human_duel import launch_duel
 from telegram_server.telegram_commands import *
 from telegram_server.telegram_token import token
@@ -16,6 +18,10 @@ from telegram.ext import (
 #     print(updates[-1])
 #     input()
 from telegram_server.upload_bot import upload_bot
+
+logging.basicConfig(
+    level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 
 updater = Updater(token=token)
 

@@ -9,7 +9,7 @@ from collections import Counter
 def get_sandbox_bot(bot: Bot) -> PlayerInterface:
     global_scope = {"__builtins__": __builtins__.copy()}
     # print(global_scope["__builtins__"])
-    del global_scope["__builtins__"]["print"]
+    # del global_scope["__builtins__"]["print"]
     # print(PlayerInterface.__dict__)
     local_scope = {
         "GameInfo": GameInfo,
@@ -18,9 +18,10 @@ def get_sandbox_bot(bot: Bot) -> PlayerInterface:
         "Counter": Counter,
         "random": random,
     }
+    global_scope.update(local_scope)
     exec(bot.code, global_scope, local_scope)
     # print(global_scope, local_scope)
     print(local_scope)
     # a = local_scope["Bot1"](1)
     # print(a.get_player_name())
-    return local_scope["Bot1"]
+    return local_scope["Player"]
