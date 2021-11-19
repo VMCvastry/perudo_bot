@@ -20,6 +20,7 @@ def get_new_bot(user_id, code) -> (Bot, PlayerInterface):
     except Exception as e:
         traceback.print_exc()
 
+
 # def test_and_save_new_bot(db: Database, user_id, code):
 #     bot = get_new_bot(user_id, code)
 #     if bot:

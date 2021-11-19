@@ -38,4 +38,4 @@ def rank_and_save_bot(bot: Bot, db_path):
     bot.victory = victory
     bot.defeat = defeat
     db.add_bot(bot)
-    return round(victory / (victory + defeat), 2)
+    return bot.get_win_ratio()

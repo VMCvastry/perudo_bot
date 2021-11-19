@@ -1,7 +1,7 @@
 class Player(PlayerInterface):
     # TODO player_id in abstract interface, static name
     def __init__(self, player_id: int):
-        self.name = "Bot3"
+        self.name = "Bot4"
         self.numbers = []
 
     def get_player_name(self) -> str:
