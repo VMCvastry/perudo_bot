@@ -1,3 +1,4 @@
+import os
 import sqlite3
 from sqlite3 import Error
 
@@ -24,6 +25,8 @@ class Database:
 
     def open(self):
         try:
+            if not os.path.isfile(self.db):
+                raise Exception("WORNG DB PATH")
             self.sqliteConnection = sqlite3.connect(self.db)
             self.sqliteConnection.row_factory = dict_factory
             self.cursor = self.sqliteConnection.cursor()
@@ -53,12 +56,13 @@ class Database:
             print(f"Error while adding bot", error)
 
     def get_bot(self, bot_id) -> Bot:
-        try:
-            if not self.sqliteConnection:
-                self.open()
-            query = """select * from bots where id == ?"""
-            self.cursor.execute(query, (bot_id,))
-            bot = self.cursor.fetchone()
-            return Bot(bot["id"], bot["user_id"], bot["name"], bot["code"])
-        except sqlite3.Error as error:
-            print(f"Error while adding bot", error)
+        # try:
+        if not self.sqliteConnection:
+            self.open()
+        query = """select * from bots where id == ?"""
+        self.cursor.execute(query, (bot_id,))
+        bot = self.cursor.fetchone()
+        return Bot(bot["id"], bot["name"], bot["user_id"], bot["code"])
+
+    # except sqlite3.Error as error:
+    #     print(f"Error while getting bot", error)

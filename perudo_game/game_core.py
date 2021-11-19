@@ -1,12 +1,12 @@
 import random
 
-from game.gameMove import GameMove
-from game.gameStatus import GameStatus
-from game.player_entity import PlayerEntity
-from players import PlayerInterface
-from players.player1 import Bot1
-from players.player2 import HumanPlayer
-from ui import UI, CLI
+from .game.gameMove import GameMove
+from .game.gameStatus import GameStatus
+from .game.player_entity import PlayerEntity
+from .players import PlayerInterface
+from .players.player1 import Bot1
+from .players.player2 import HumanPlayer
+from .ui import UI, CLI
 
 
 def roll_dice() -> int:

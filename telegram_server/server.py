@@ -1,8 +1,7 @@
-from telegram_server.telegram_commands import start, echo, callback
+from telegram_server.human_duel import launch_duel
+from telegram_server.telegram_commands import *
 from telegram_server.telegram_token import token
-from telegram import Update
 from telegram.ext import (
-    CallbackContext,
     CommandHandler,
     MessageHandler,
     Filters,
@@ -24,6 +23,9 @@ dispatcher = updater.dispatcher
 
 start_handler = CommandHandler("start", start)
 dispatcher.add_handler(start_handler)
+
+launch_handler = CommandHandler("play", launch_duel, pass_args=True)
+dispatcher.add_handler(launch_handler)
 
 echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
 dispatcher.add_handler(echo_handler)

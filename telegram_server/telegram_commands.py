@@ -1,6 +1,6 @@
 from telegram import Update
 from telegram.ext import CallbackContext
-import telegram, requests
+import telegram
 
 
 def start(update: Update, context: CallbackContext):
@@ -16,6 +16,9 @@ def echo(update: Update, context: CallbackContext):
 
 def callback(update: Update, context: CallbackContext):
     print("f")
+
+
+# def play(update: Update, context: CallbackContext):
 
 
 k = telegram.InlineKeyboardButton(text="awdaw", callback_data="ciao")
