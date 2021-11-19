@@ -1,5 +1,7 @@
 import random
 
+from perudo_game.exceptions import PlayerException
+from timeout_manager import execute_with_timeout
 from .game.gameMove import GameMove
 from .game.gameStatus import GameStatus
 from .game.player_entity import PlayerEntity
@@ -70,7 +72,14 @@ class Game:
     def start_round(self):
         self.ui.show_summary(self.game_status)
         for id, player in self.players.items():
-            player.set_rolled_dices([roll_dice() for _ in range(player.n_dices)])
+            try:
+                execute_with_timeout(
+                    player.set_rolled_dices,
+                    ([roll_dice() for _ in range(player.n_dices)],),
+                    timeout=3,
+                )
+            except Exception as e:
+                raise PlayerException(id, e)
 
     def start(self):
         self.start_round()
@@ -79,7 +88,14 @@ class Game:
             player = self.get_next_player()
             self.ui.show_round(self.game_status.moves_history)
             self.ui.show_players_dices(player.numbers)
-            move = player.player.make_a_move(self.game_status.get_game_info())
+            try:
+                move = execute_with_timeout(
+                    player.player.make_a_move,
+                    (self.game_status.get_game_info,),
+                    timeout=3,
+                )
+            except Exception as e:
+                raise PlayerException(player.id, e)
             if not move:
                 self.check()
             else:
