@@ -1,8 +1,11 @@
+from __future__ import annotations
+
 import os
 import sqlite3
 from sqlite3 import Error
 
 from bots.bot_class import Bot
+from user_class import User
 
 
 def dict_factory(cursor, row):
@@ -84,6 +87,8 @@ class Database:
             query = "select * from bots where id == ?"
             self.cursor.execute(query, (bot_id,))
             bot = self.cursor.fetchone()
+            if not bot:
+                return None
             return Bot(
                 bot["id"],
                 bot["name"],
@@ -92,6 +97,44 @@ class Database:
                 bot["victory"],
                 bot["defeat"],
             )
+        except sqlite3.Error as error:
+            print(f"Error while getting bot", error)
+
+    def add_user(self, user: User):
+        try:
+            if not self.sqliteConnection:
+                self.open()
+            query = "INSERT INTO users (telegram_id,name) VALUES (?,?);"
+            data = (user.telegram_id, user.name)
+            self.cursor.execute(query, data)
+            self.commit()
+        except sqlite3.Error as error:
+            print(f"Error while adding user", error)
+
+    def get_user(self, telegram_id) -> User | None:
+        try:
+            if not self.sqliteConnection:
+                self.open()
+            query = "select * from users where telegram_id == ?"
+            self.cursor.execute(query, (telegram_id,))
+            user = self.cursor.fetchone()
+            if not user:
+                return None
+            return User(user["telegram_id"], user["name"])
+        except sqlite3.Error as error:
+            print(f"Error while getting bot", error)
+
+    def get_all_user(self) -> dict[int, User]:
+        try:
+            if not self.sqliteConnection:
+                self.open()
+            query = "select * from users"
+            self.cursor.execute(query)
+            users = self.cursor.fetchall()
+            return {
+                user["telegram_id"]: User(user["telegram_id"], user["name"])
+                for user in users
+            }
         except sqlite3.Error as error:
             print(f"Error while getting bot", error)
 

@@ -1,8 +1,8 @@
-import logging
-
-from telegram_server.human_duel import launch_duel
+from telegram_server.human_player_logic.human_showdown import showdown_handler
 from telegram_server.telegram_commands import *
 from telegram_server.telegram_token import token
+from telegram_server.user_setup import user_setup_handler
+from telegram_server.upload_bot import upload_bot
 from telegram.ext import (
     CommandHandler,
     MessageHandler,
@@ -17,69 +17,26 @@ from telegram.ext import (
 #     updates = t_bot.get_updates()
 #     print(updates[-1])
 #     input()
-from telegram_server.upload_bot import upload_bot
+
 
 # logging.basicConfig(
 #     level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 # )
 
-updater = Updater(token=token)
+
+updater = Updater(token=token, arbitrary_callback_data=True)
 
 dispatcher = updater.dispatcher
-handlers = []
-handlers.append(CommandHandler("start", start))
-handlers.append(CommandHandler("leaderboard", get_leaderboard))
-handlers.append(CommandHandler("play", launch_duel, pass_args=True))
-handlers.append(MessageHandler(Filters.text & (~Filters.command), echo))
+handlers = [
+    user_setup_handler,
+    showdown_handler,
+    CommandHandler("leaderboard", get_leaderboard),
+    MessageHandler(Filters.text & (~Filters.command), echo),
+    CallbackQueryHandler(callback),
+    MessageHandler(Filters.document, upload_bot),
+]
 # upload_handler = CommandHandler("upload", upload_bot)
-handlers.append(CallbackQueryHandler(callback))
-handlers.append(MessageHandler(Filters.document, upload_bot))
 for h in handlers:
     dispatcher.add_handler(h)
 
 updater.start_polling()
-# {
-#     "update_id": 244751907,
-#     "message": {
-#         "date": 1637233040,
-#         "caption_entities": [],
-#         "new_chat_members": [],
-#         "document": {
-#             "file_size": 111051,
-#             "file_name": "CV_EN_main.pdf",
-#             "file_id": "BQACAgQAAxkBAAMXYZYxjw5b-Tbws9KQBNdmtlRr5Z4AAmYMAAJM4rFQdEONGzv7lAYiBA",
-#             "file_unique_id": "AgADZgwAAkzisVA",
-#             "thumb": {
-#                 "file_size": 19030,
-#                 "file_id": "AAMCBAADGQEAAxdhljGPDlv5NvCz0pAE12a2VGvlngACZgwAAkzisVB0Q40bO_uUBgEAB20AAyIE",
-#                 "file_unique_id": "AQADZgwAAkzisVBy",
-#                 "height": 320,
-#                 "width": 226,
-#             },
-#             "mime_type": "application/pdf",
-#         },
-#         "delete_chat_photo": False,
-#         "supergroup_chat_created": False,
-#         "group_chat_created": False,
-#         "photo": [],
-#         "chat": {
-#             "username": "VMCvastry",
-#             "id": 723468787,
-#             "last_name": "Massimo",
-#             "first_name": "Valerio",
-#             "type": "private",
-#         },
-#         "new_chat_photo": [],
-#         "entities": [],
-#         "message_id": 23,
-#         "channel_chat_created": False,
-#         "from": {
-#             "id": 723468787,
-#             "username": "VMCvastry",
-#             "language_code": "en",
-#             "first_name": "Valerio",
-#             "is_bot": False,
-#             "last_name": "Massimo",
-#         },
-#     },
-# }
