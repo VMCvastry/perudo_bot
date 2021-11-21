@@ -1,3 +1,5 @@
+import time
+
 import telegram
 
 from perudo_game.game.gameMove import GameMove
@@ -14,20 +16,23 @@ class TelegramPlayer(PlayerInterface):
     def __init__(self, player_id: int, context):
         self.name = "Bot_" + str(player_id)
         self.numbers = []
+        self.context = context
 
     def get_player_name(self) -> str:
         return self.name
 
     def make_a_move(self, status: GameInfo) -> GameMove:
-
-        keyboard = telegram.InlineKeyboardMarkup([[k]])
-        n = input("amount")
-        if not n:
+        print("IN")
+        self.context.is_time_to_ask_for_move = True
+        while not self.context.next_move:
+            time.sleep(0.5)
+        number, amount = self.context.next_move
+        print("next move", number, amount)
+        self.context.next_move = None
+        if not number:
             return None
         else:
-
-            number = input("number:")
-            return GameMove(int(number), int(n))
+            return GameMove(number, amount)
 
     def set_rolled_dices(self, numbers: list[int]):
         self.numbers = numbers

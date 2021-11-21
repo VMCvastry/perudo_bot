@@ -31,6 +31,7 @@ class Game:
         self.game_status = GameStatus(list(self.players.values()))
         self.next_player_id = random.randint(0, self.n_players - 1)
         self.ui = selected_ui
+        self.winner = None
 
     def on_going(self):
         return len(self.game_status.players) != 1
@@ -86,6 +87,7 @@ class Game:
                 move.player_id = player.id
                 self.evaluate_move(move)
         print(f"player {self.next_player_id} won")
+        self.winner = [self.next_player_id]
         return self.next_player_id
 
 
