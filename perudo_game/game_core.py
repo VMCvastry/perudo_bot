@@ -1,5 +1,6 @@
 import random
 
+from perudo_game.exceptions import PlayerException
 from perudo_game.game.gameMove import GameMove
 from perudo_game.game.gameStatus import GameStatus
 from perudo_game.game.player_entity import PlayerEntity
@@ -13,13 +14,6 @@ def roll_dice() -> int:
     return random.randint(1, 6)
 
 
-# self.players = {
-#     0: PlayerEntity(Bot1(0), 0),
-#     1: PlayerEntity(HumanPlayer(1), 1),
-# }
-# self.players = {
-#     i: PlayerEntity(player(i), i) for i, player in enumerate(players)
-# }
 class Game:
     def __init__(self, game_players: dict[int, type[PlayerInterface]], selected_ui: UI):
 
@@ -80,9 +74,10 @@ class Game:
             player = self.get_next_player()
             self.ui.show_round(self.game_status.moves_history)
             self.ui.show_players_dices(player.numbers)
-            move, player.status = player.player(player.status).make_a_move(
-                self.game_status.get_game_info(), player.numbers
-            )
+            try:
+                move = player.make_move(self.game_status.get_game_info())
+            except TimeoutError as e:
+                raise PlayerException(player.id, e)
             if not move:
                 self.check()
             else:
@@ -97,6 +92,6 @@ if __name__ == "__main__":
     ui = CLI()
     players = {
         0: Bot1,
-        1: HumanPlayer,
+        1: Bot1,
     }
     Game(players, ui).start()

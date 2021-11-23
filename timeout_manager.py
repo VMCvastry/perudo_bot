@@ -24,23 +24,24 @@ from threading import Thread
 
 
 def process_returner(queue, function, args):
-    time.sleep(5)
+    # time.sleep(5)
     queue.put(function(*args))
 
 
 def execute_with_timeout(function, args: tuple, timeout=3):
     q = Queue()
-    p1 = Thread(
+    p1 = Process(
         target=process_returner,
         args=(q, function, args),
         name="Process_inc_forever",
     )
     p1.start()
     p1.join(timeout=timeout)
-    # p1.terminate()
-    # print(p1)
-    # print(p1.exitcode)
-    # if p1.exitcode is None:
-    #     print(f"Oops, {p1} timeouts!")
-    #     raise TimeoutError
-    return q.get() if not q.empty() else None
+    p1.terminate()
+    print(p1)
+    print(p1.exitcode)
+    if p1.exitcode is None:
+        print(f"Oops, {p1} timeouts!")
+        raise TimeoutError
+    return q.get()
+    # return q.get() if not q.empty() else None
