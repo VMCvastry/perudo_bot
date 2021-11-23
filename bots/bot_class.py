@@ -10,11 +10,12 @@ class Bot:
     code: str
     victory: int = 0
     defeat: int = 0
+    username: str | None = None
 
     def get_win_ratio(self):
-        return round(self.victory / (self.victory + self.defeat), 2)
+        return 0 if not (self.victory + self.defeat) else round(self.victory / (self.victory + self.defeat), 2)
 
     def __str__(self):
         return (
-            f"{self.name} by {self.user_id}: {self.get_win_ratio() * 100}% victories "
+            f"{self.name} by {self.username}: {self.get_win_ratio() * 100}% victories "
         )

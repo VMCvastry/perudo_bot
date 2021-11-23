@@ -6,14 +6,14 @@ from database import Database
 from bots import get_sandbox_bot
 
 
-def test_new_bot(player: PlayerInterface):
+def test_new_bot(player: type[PlayerInterface]):
     return True
 
 
-def get_new_bot(user_id, code) -> (Bot, PlayerInterface):
+def get_new_bot(user_id, code) -> (Bot, type[PlayerInterface]):
     bot = Bot(None, None, user_id, code)
     try:
-        player = get_sandbox_bot(bot)(0)
+        player = get_sandbox_bot(bot)
         test_new_bot(player)
         bot.name = player.get_player_name()
         return bot

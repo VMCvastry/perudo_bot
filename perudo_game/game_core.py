@@ -1,14 +1,12 @@
 import random
 
-from perudo_game.exceptions import PlayerException
-from timeout_manager import execute_with_timeout
-from .game.gameMove import GameMove
-from .game.gameStatus import GameStatus
-from .game.player_entity import PlayerEntity
-from .players import PlayerInterface
-from .players.player1 import Bot1
-from .players.player2 import HumanPlayer
-from .ui import UI, CLI
+from perudo_game.game.gameMove import GameMove
+from perudo_game.game.gameStatus import GameStatus
+from perudo_game.game.player_entity import PlayerEntity
+from perudo_game.players import PlayerInterface
+from perudo_game.players.player1 import Bot1
+from perudo_game.players.player2 import HumanPlayer
+from perudo_game.ui import UI, CLI
 
 
 def roll_dice() -> int:
@@ -23,7 +21,7 @@ def roll_dice() -> int:
 #     i: PlayerEntity(player(i), i) for i, player in enumerate(players)
 # }
 class Game:
-    def __init__(self, game_players: dict[int, PlayerInterface], selected_ui: UI):
+    def __init__(self, game_players: dict[int, type[PlayerInterface]], selected_ui: UI):
 
         self.players = {
             i: PlayerEntity(player, i) for i, player in game_players.items()
@@ -33,6 +31,7 @@ class Game:
         self.game_status = GameStatus(list(self.players.values()))
         self.next_player_id = random.randint(0, self.n_players - 1)
         self.ui = selected_ui
+        self.winner = None
 
     def on_going(self):
         return len(self.game_status.players) != 1
@@ -72,14 +71,7 @@ class Game:
     def start_round(self):
         self.ui.show_summary(self.game_status)
         for id, player in self.players.items():
-            try:
-                execute_with_timeout(
-                    player.set_rolled_dices,
-                    ([roll_dice() for _ in range(player.n_dices)],),
-                    timeout=3,
-                )
-            except Exception as e:
-                raise PlayerException(id, e)
+            player.set_rolled_dices([roll_dice() for _ in range(player.n_dices)])
 
     def start(self):
         self.start_round()
@@ -88,27 +80,23 @@ class Game:
             player = self.get_next_player()
             self.ui.show_round(self.game_status.moves_history)
             self.ui.show_players_dices(player.numbers)
-            try:
-                move = execute_with_timeout(
-                    player.player.make_a_move,
-                    (self.game_status.get_game_info,),
-                    timeout=3,
-                )
-            except Exception as e:
-                raise PlayerException(player.id, e)
+            move, player.status = player.player(player.status).make_a_move(
+                self.game_status.get_game_info(), player.numbers
+            )
             if not move:
                 self.check()
             else:
                 move.player_id = player.id
                 self.evaluate_move(move)
         print(f"player {self.next_player_id} won")
+        self.winner = [self.next_player_id]
         return self.next_player_id
 
 
 if __name__ == "__main__":
     ui = CLI()
     players = {
-        0: Bot1(0),
-        1: HumanPlayer(1),
+        0: Bot1,
+        1: HumanPlayer,
     }
     Game(players, ui).start()

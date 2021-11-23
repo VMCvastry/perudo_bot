@@ -13,10 +13,12 @@ class GameStatus:
         self.moves_history: list[[GameMove]] = [[]]
 
     def get_game_info(self) -> GameInfo:
-        return GameInfo(
-            deepcopy(self.players),
+        return GameInfo(  # todo DEEP coppy
+            # deepcopy(self.players),
+            self.players,
             self.round,
-            deepcopy(self.moves_history),
+            # deepcopy(self.moves_history),
+            self.moves_history,
             self.last_move() == None,
         )
 

@@ -25,8 +25,8 @@ def rank_and_save_bot(bot: Bot, db_path):
     for enemy in bots:
         ui = NoUI()
         players = {
-            0: get_sandbox_bot(enemy)(0),
-            1: player(1),
+            0: get_sandbox_bot(enemy),
+            1: player,
         }
         winner = find_winner(players, ui)
         if not winner:

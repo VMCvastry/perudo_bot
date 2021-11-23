@@ -14,7 +14,7 @@ def download_file(url):
 
 
 def upload_bot(update: Update, context: CallbackContext):
-    db_path = "./bots.db"
+    db_path = "../bots.db"
     # db = Database(db_path)
     document = update.message.document
     name = document.file_name
