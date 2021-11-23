@@ -1,12 +1,12 @@
 import random
 
-from .game.gameMove import GameMove
-from .game.gameStatus import GameStatus
-from .game.player_entity import PlayerEntity
-from .players import PlayerInterface
-from .players.player1 import Bot1
-from .players.player2 import HumanPlayer
-from .ui import UI, CLI
+from perudo_game.game.gameMove import GameMove
+from perudo_game.game.gameStatus import GameStatus
+from perudo_game.game.player_entity import PlayerEntity
+from perudo_game.players import PlayerInterface
+from perudo_game.players.player1 import Bot1
+from perudo_game.players.player2 import HumanPlayer
+from perudo_game.ui import UI, CLI
 
 
 def roll_dice() -> int:
@@ -21,7 +21,7 @@ def roll_dice() -> int:
 #     i: PlayerEntity(player(i), i) for i, player in enumerate(players)
 # }
 class Game:
-    def __init__(self, game_players: dict[int, PlayerInterface], selected_ui: UI):
+    def __init__(self, game_players: dict[int, type[PlayerInterface]], selected_ui: UI):
 
         self.players = {
             i: PlayerEntity(player, i) for i, player in game_players.items()
@@ -80,7 +80,9 @@ class Game:
             player = self.get_next_player()
             self.ui.show_round(self.game_status.moves_history)
             self.ui.show_players_dices(player.numbers)
-            move = player.player.make_a_move(self.game_status.get_game_info())
+            move, player.status = player.player(player.status).make_a_move(
+                self.game_status.get_game_info(), player.numbers
+            )
             if not move:
                 self.check()
             else:
@@ -94,7 +96,7 @@ class Game:
 if __name__ == "__main__":
     ui = CLI()
     players = {
-        0: Bot1(0),
-        1: HumanPlayer(1),
+        0: Bot1,
+        1: HumanPlayer,
     }
     Game(players, ui).start()

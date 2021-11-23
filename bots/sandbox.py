@@ -2,11 +2,11 @@ from bots.bot_class import Bot
 from perudo_game.players import PlayerInterface
 from perudo_game.game.gameMove import GameMove
 from perudo_game.game.game_info import GameInfo
-import random
+import random, json
 from collections import Counter
 
 
-def get_sandbox_bot(bot: Bot) -> PlayerInterface:
+def get_sandbox_bot(bot: Bot) -> type[PlayerInterface]:
     global_scope = {"__builtins__": __builtins__.copy()}
     # print(global_scope["__builtins__"])
     # del global_scope["__builtins__"]["print"]
@@ -17,6 +17,7 @@ def get_sandbox_bot(bot: Bot) -> PlayerInterface:
         "GameMove": GameMove,
         "Counter": Counter,
         "random": random,
+        "json": json,
     }
     global_scope.update(local_scope)
     exec(bot.code, global_scope, local_scope)

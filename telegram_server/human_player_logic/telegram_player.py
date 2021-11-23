@@ -12,27 +12,23 @@ from perudo_game.players import PlayerInterface
 
 
 class TelegramPlayer(PlayerInterface):
+    manager = None
     # TODO player_id in abstract interface
-    def __init__(self, player_id: int, context):
-        self.name = "Bot_" + str(player_id)
-        self.numbers = []
-        self.context = context
+    def __init__(self, player_status):
+        super().__init__(player_status)
 
     def get_player_name(self) -> str:
-        return self.name
+        return "Telegram"
 
-    def make_a_move(self, status: GameInfo) -> GameMove:
+    def make_a_move(self, status: GameInfo, numbers) -> (GameMove, str):
         print("IN")
-        self.context.is_time_to_ask_for_move = True
-        while not self.context.next_move:
+        self.manager.is_time_to_ask_for_move = True
+        while not self.manager.next_move:
             time.sleep(0.5)
-        number, amount = self.context.next_move
+        number, amount = self.manager.next_move
         print("next move", number, amount)
-        self.context.next_move = None
+        self.manager.next_move = None
         if not number:
-            return None
+            return None, self.get_ending_status_as_JSON()
         else:
-            return GameMove(number, amount)
-
-    def set_rolled_dices(self, numbers: list[int]):
-        self.numbers = numbers
+            return GameMove(number, amount), self.get_ending_status_as_JSON()

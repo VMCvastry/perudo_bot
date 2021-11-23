@@ -66,9 +66,10 @@ class ShowdownManager:
                 chat_id=update.effective_chat.id, text="game is starting"
             )
             ui = TelegramUI(context, update.effective_chat.id)
+            TelegramPlayer.manager = self
             players = {
-                0: TelegramPlayer(0, self),
-                1: get_sandbox_bot(bot)(1),
+                0: TelegramPlayer,
+                1: get_sandbox_bot(bot),
             }
             self.game = Game(players, ui)
             self.tread = Thread(target=self.game.start)

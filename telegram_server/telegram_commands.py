@@ -17,7 +17,7 @@ def callback(update: Update, context: CallbackContext):
 
 # lambda x: x.victory / (x.victory + x.defeat)
 def get_leaderboard(update: Update, context: CallbackContext):
-    db_path = "./bots.db"
+    db_path = "../bots.db"
     db = Database(db_path)
     bots = db.get_all_bots()
     leaderboard = sorted(bots, key=lambda x: x.get_win_ratio(), reverse=True)
