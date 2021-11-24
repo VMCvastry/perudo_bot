@@ -14,9 +14,8 @@ class CLI(UI):
         print("summary")
         [print(p) for p in game.players]
 
-    def show_round(self, moves: list[GameMove]):
-        print("pastmoves")
-        print(moves[-1])
+    def show_round(self, moves: list[list[GameMove]]):
+        print("pastmoves\n" + "\n".join([str(m) for m in moves[-1]]))
 
     def show_round_check(self, game: GameStatus):
         print("the dices are")

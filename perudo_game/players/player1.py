@@ -15,7 +15,7 @@ class Bot1(PlayerInterface):
     def get_player_name() -> str:
         return "Bot_1"
 
-    def make_a_move(self, status: GameInfo, numbers) -> GameMove:
+    def move(self, status: GameInfo, numbers) -> GameMove:
         print("MOVING")
         numbers = Counter(numbers)
         value, n = numbers.most_common(1)[0]

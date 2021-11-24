@@ -8,3 +8,6 @@ class GameMove:
         self.number: int = number
         self.amount: int = amount
         self.player_id: int = None
+
+    def __str__(self):
+        return f"player {self.player_id} called {self.number} with multiplicity {self.amount}"

@@ -17,7 +17,7 @@ def dict_factory(cursor, row):
 
 class Database:
     def __init__(self):
-        self.db = "./bots.db"
+        self.db = "../bots.db"
         self.sqliteConnection = None
         self.cursor = None
         self.open()

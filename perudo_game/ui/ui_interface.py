@@ -22,7 +22,7 @@ class UI(ABC):
         pass
 
     @abstractmethod
-    def show_players_dices(self, numbers: list[int]):
+    def show_players_dices(self, numbers: list[int], player_id):
         pass
 
     @abstractmethod

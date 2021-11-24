@@ -33,7 +33,7 @@ def execute_with_timeout(function, args: tuple, timeout=3):
     p1 = Process(
         target=process_returner,
         args=(q, function, args),
-        name="Process_inc_forever",
+        name="P",
     )
     p1.start()
     p1.join(timeout=timeout)

@@ -19,7 +19,7 @@ class Game:
         self,
         game_players: dict[int, type[PlayerInterface]],
         selected_ui: UI,
-        no_timeout=None,
+        no_timeout=[],
     ):
 
         self.players = {
@@ -80,7 +80,7 @@ class Game:
         while self.on_going():
             player = self.get_next_player()
             self.ui.show_round(self.game_status.moves_history)
-            self.ui.show_players_dices(player.numbers)
+            self.ui.show_players_dices(player.numbers, player.id)
             try:
                 move = player.make_move(self.game_status.get_game_info())
             except TimeoutError as e:

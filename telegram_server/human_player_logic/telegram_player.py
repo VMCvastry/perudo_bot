@@ -7,7 +7,7 @@ from telegram.ext import CallbackContext
 from perudo_game.game.game_info import GameInfo
 from perudo_game.players import PlayerInterface
 
-telegram_timeout_secs = 300
+telegram_timeout_secs = 1000
 
 
 class TelegramPlayer(PlayerInterface):
@@ -20,7 +20,7 @@ class TelegramPlayer(PlayerInterface):
     def get_player_name(self) -> str:
         return "Telegram"
 
-    def make_a_move(self, status: GameInfo, numbers) -> (GameMove, str):
+    def move(self, status: GameInfo, numbers) -> GameMove:
         print("IN")
         self.manager.is_time_to_ask_for_move = True
         start_time = time.time()
@@ -36,6 +36,6 @@ class TelegramPlayer(PlayerInterface):
         print("next move", number, amount)
         self.manager.next_move = None
         if not number:
-            return None, self.get_ending_status_as_JSON()
+            return None
         else:
-            return GameMove(number, amount), self.get_ending_status_as_JSON()
+            return GameMove(number, amount)

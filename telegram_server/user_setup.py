@@ -14,7 +14,7 @@ def start(update: Update, context: CallbackContext):
     #     logger.info("User %s started the conversation.", user.first_name)
     print(user.username, user.first_name)
     db_path = "../bots.db"
-    db = Database(db_path)
+    db = Database()
     user_id = update.effective_chat.id
     if db.get_user(user_id):
         context.bot.send_message(
@@ -44,7 +44,7 @@ def disclose_name(update: Update, context: CallbackContext):
     query = update.callback_query
     query.answer()
     query.edit_message_text(
-        text="You choose to show your name,Everyone will now who is the best"
+        text="You choose to show your name,Everyone will know who is the best"
     )
     return ConversationHandler.END
 

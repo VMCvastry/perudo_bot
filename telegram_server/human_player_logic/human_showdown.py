@@ -70,7 +70,7 @@ class ShowdownManager:
             )
             self.bot = context.bot
             self.chat_id = update.effective_chat.id
-            ui = TelegramUI(context, update.effective_chat.id)
+            ui = TelegramUI(context, update.effective_chat.id, 0)
             TelegramPlayer.manager = self
             players = {
                 0: TelegramPlayer,
