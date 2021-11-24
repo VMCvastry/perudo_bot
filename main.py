@@ -17,15 +17,25 @@ logging.basicConfig(
 #
 # logger.setLevel(logging.DEBUG)
 
-db = Database("./bots.db")
-status = GameInfo([], 0, [[]], True)
-b = get_sandbox_bot(db.get_bot(4))(1)
-b.set_rolled_dices([1, 2, 3])
-execute_with_timeout(b.set_rolled_dices, ([5, 6, 7],), timeout=3)
-print(b.numbers)
+# db = Database("./bots.db")
+# status = GameInfo([], 0, [[]], True)
+# b = get_sandbox_bot(db.get_bot(4))(1)
+# b.set_rolled_dices([1, 2, 3])
+# execute_with_timeout(b.set_rolled_dices, ([5, 6, 7],), timeout=3)
+# print(b.numbers)
 # f = b.make_a_move
-# print(execute_with_timeout(f, (status,), timeout=3))
+def f():
+    raise Exception
+    return input("a")
+
+
+# print(execute_with_timeout(f, (), timeout=3))
 from threading import Thread
+
+t = Thread(target=f)
+t.start()
+while 1:
+    pass
 
 #
 #

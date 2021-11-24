@@ -45,7 +45,10 @@ class ShowdownManager:
         self.number_to_bet_on = None
         self.is_time_to_ask_for_move = False
         self.game = None
-        self.tread = None
+        self.thread = None
+        self.bot = None
+        self.chat_id = None
+        self.timed_out = False
 
     def choose_opponent(self, update: Update, context: CallbackContext):
         context.bot.send_message(
@@ -65,6 +68,8 @@ class ShowdownManager:
             context.bot.send_message(
                 chat_id=update.effective_chat.id, text="game is starting"
             )
+            self.bot = context.bot
+            self.chat_id = update.effective_chat.id
             ui = TelegramUI(context, update.effective_chat.id)
             TelegramPlayer.manager = self
             players = {
@@ -72,16 +77,9 @@ class ShowdownManager:
                 1: get_sandbox_bot(bot),
             }
             self.game = Game(players, ui, [0])
-            self.tread = Thread(target=self.game.start)
-            self.tread.start()
-            # thread.join()
-
+            self.thread = Thread(target=self.game.start)
+            self.thread.start()
             self.wait()
-            # context.bot.send_message(
-            #     chat_id=update.effective_chat.id,
-            #     text="your move:",
-            #     reply_markup=dices_keyboard,
-            # )
             return self.ask_for_move(context.bot, update.effective_chat.id)
         else:
             context.bot.send_message(
@@ -94,9 +92,17 @@ class ShowdownManager:
             time.sleep(0.5)
         self.is_time_to_ask_for_move = False
 
+    def call_timeout(self):
+        self.bot.send_message(
+            chat_id=self.chat_id,
+            text=f"Waited for too long, game interrupted",
+        )
+        self.timed_out = True
+        return ConversationHandler.END
+
     def ask_for_move(self, bot, chat_id):
         if self.game.winner:
-            self.tread.join()
+            self.thread.join()
             bot.send_message(
                 chat_id=chat_id,
                 text=f"player {self.game.winner[0]} won",
@@ -110,6 +116,8 @@ class ShowdownManager:
         return 1
 
     def get_dice(self, update: Update, context: CallbackContext):
+        if self.timed_out:
+            return self.call_timeout()
         print("get move")
         query = update.callback_query
         query.answer()
@@ -121,11 +129,15 @@ class ShowdownManager:
         return 2
 
     def call_bluff(self, update: Update, context: CallbackContext):
+        if self.timed_out:
+            return self.call_timeout()
         self.next_move = [None, None]
         self.wait()
         return self.ask_for_move(context.bot, update.effective_chat.id)
 
     def get_amount(self, update: Update, context: CallbackContext):
+        if self.timed_out:
+            return self.call_timeout()
         amount = update.message.text
         self.next_move = [self.number_to_bet_on, int(amount)]
         self.wait()
@@ -146,8 +158,10 @@ showdown_handler = ConversationHandler(
         2: [
             MessageHandler(Filters.text & ~Filters.command, manager.get_amount),
         ],
+        # -2: [MessageHandler(Filters.all, manager.call_timeout)],
     },
     fallbacks=[
         CommandHandler("play", manager.choose_opponent)
     ],  # TODO what is fallbacks
+    # conversation_timeout=10,
 )
