@@ -58,7 +58,7 @@ class ShowdownManager:
     def launch_duel(self, update: Update, context: CallbackContext):
         opponent_raw_id = update.message.text
         opponent_id = int(opponent_raw_id)  # TODO try catch
-        db = Database("../bots.db")
+        db = Database()
         bot = db.get_bot(opponent_id)
         if bot:
             self.opponent_id = opponent_id
@@ -71,7 +71,7 @@ class ShowdownManager:
                 0: TelegramPlayer,
                 1: get_sandbox_bot(bot),
             }
-            self.game = Game(players, ui)
+            self.game = Game(players, ui, [0])
             self.tread = Thread(target=self.game.start)
             self.tread.start()
             # thread.join()

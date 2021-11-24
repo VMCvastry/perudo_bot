@@ -4,7 +4,7 @@ class Player(PlayerInterface):
 
     @staticmethod
     def get_player_name() -> str:
-        return "Bot_2"
+        return "Bot_3"
 
     def make_a_move(self, status: GameInfo, numbers) -> (GameMove, str):
         print("MOVING")

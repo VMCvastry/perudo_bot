@@ -43,5 +43,4 @@ def execute_with_timeout(function, args: tuple, timeout=3):
     if p1.exitcode is None:
         print(f"Oops, {p1} timeouts!")
         raise TimeoutError
-    return q.get()
-    # return q.get() if not q.empty() else None
+    return q.get() if not q.empty() else None

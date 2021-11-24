@@ -16,8 +16,8 @@ def dict_factory(cursor, row):
 
 
 class Database:
-    def __init__(self, db):
-        self.db = db
+    def __init__(self):
+        self.db = "./bots.db"
         self.sqliteConnection = None
         self.cursor = None
         self.open()
@@ -29,6 +29,7 @@ class Database:
     def open(self):
         try:
             if not os.path.isfile(self.db):
+                print(os.listdir())
                 raise Exception("WORNG DB PATH")
             self.sqliteConnection = sqlite3.connect(self.db)
             self.sqliteConnection.row_factory = dict_factory

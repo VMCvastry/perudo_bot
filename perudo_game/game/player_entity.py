@@ -18,16 +18,22 @@ class PlayerEntity:
         self.numbers = []
         self.id = player_id
         self.status: str = "{}"
+        self.timeout = True
 
     def set_rolled_dices(self, numbers: list[int]):
         self.numbers = numbers
 
     def make_move(self, info: GameInfo) -> GameMove:
-        move, self.status = execute_with_timeout(
-            create_player_and_get_move,
-            (self.player, self.status, self.numbers, info),
-            timeout=3,
-        )
+        if self.timeout:
+            move, self.status = execute_with_timeout(
+                create_player_and_get_move,
+                (self.player, self.status, self.numbers, info),
+                timeout=self.timeout,
+            )
+        else:
+            move, self.status = create_player_and_get_move(
+                self.player, self.status, self.numbers, info
+            )
         return move
 
     def __str__(self):

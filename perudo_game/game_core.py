@@ -15,11 +15,18 @@ def roll_dice() -> int:
 
 
 class Game:
-    def __init__(self, game_players: dict[int, type[PlayerInterface]], selected_ui: UI):
+    def __init__(
+        self,
+        game_players: dict[int, type[PlayerInterface]],
+        selected_ui: UI,
+        no_timeout=None,
+    ):
 
         self.players = {
             i: PlayerEntity(player, i) for i, player in game_players.items()
         }
+        for player_id in no_timeout:
+            self.players[player_id].timeout = False
 
         self.n_players = len(self.players)
         self.game_status = GameStatus(list(self.players.values()))
@@ -91,7 +98,7 @@ class Game:
 if __name__ == "__main__":
     ui = CLI()
     players = {
-        0: Bot1,
+        0: HumanPlayer,
         1: Bot1,
     }
     Game(players, ui).start()

@@ -16,8 +16,8 @@ def find_winner(players, ui):
     return winner
 
 
-def rank_and_save_bot(bot: Bot, db_path):
-    db = Database(db_path)
+def rank_and_save_bot(bot: Bot):
+    db = Database()
     bots = db.get_all_bots()
     victory = 0
     defeat = 0
