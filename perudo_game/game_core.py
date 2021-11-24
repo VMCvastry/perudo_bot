@@ -6,7 +6,7 @@ from perudo_game.game.gameStatus import GameStatus
 from perudo_game.game.player_entity import PlayerEntity
 from perudo_game.players import PlayerInterface
 from perudo_game.players.player1 import Bot1
-from perudo_game.players.player2 import HumanPlayer
+from perudo_game.players.CLI_player import HumanPlayer
 from perudo_game.ui import UI, CLI
 
 

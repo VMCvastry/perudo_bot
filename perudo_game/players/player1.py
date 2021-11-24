@@ -15,23 +15,17 @@ class Bot1(PlayerInterface):
     def get_player_name() -> str:
         return "Bot_1"
 
-    def make_a_move(self, status: GameInfo, numbers) -> (GameMove, str):
+    def make_a_move(self, status: GameInfo, numbers) -> GameMove:
         print("MOVING")
         numbers = Counter(numbers)
         value, n = numbers.most_common(1)[0]
         if status.first_call:
-            return GameMove(value, n), self.get_ending_status_as_JSON()
+            return GameMove(value, n)
         else:
             last = status.moves_history[-1][-1]
             if last.amount >= n:
                 if random.random() > 0.5:
-                    return (
-                        GameMove(value, last.amount + 1),
-                        self.get_ending_status_as_JSON(),
-                    )
-                return None, self.get_ending_status_as_JSON()
+                    return GameMove(value, last.amount + 1)
+                return None
             else:
-                return GameMove(value, n), self.get_ending_status_as_JSON()
-
-    def get_ending_status_as_JSON(self) -> str:
-        return json.dumps(self.status)
+                return GameMove(value, n)

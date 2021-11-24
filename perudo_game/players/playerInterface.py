@@ -12,11 +12,18 @@ class PlayerInterface(ABC):
     @staticmethod
     @abstractmethod
     def get_player_name() -> str:
+        # Return bot name as a Static String, Eg:
+        # return "Pippo"
         pass
 
-    @abstractmethod
+    # DO NOT OVERRIDE
     def make_a_move(self, status: GameInfo, numbers: list[int]) -> (GameMove, str):
-        pass
+        return self.move(status, numbers), self.get_ending_status_as_JSON()
 
+    # DO NOT OVERRIDE
     def get_ending_status_as_JSON(self) -> str:
         return json.dumps(self.status)
+
+    @abstractmethod
+    def move(self, status: GameInfo, numbers: list[int]) -> GameMove:
+        pass
