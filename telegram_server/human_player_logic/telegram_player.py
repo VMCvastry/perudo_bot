@@ -7,15 +7,14 @@ from telegram.ext import CallbackContext
 from perudo_game.game.game_info import GameInfo
 from perudo_game.players import PlayerInterface
 
-telegram_timeout_secs = 1000
+telegram_timeout_secs = 500
 
 
 class TelegramPlayer(PlayerInterface):
-    manager = None
-
     # TODO player_id in abstract interface
-    def __init__(self, player_status):
-        super().__init__(player_status)
+    def __init__(self, manager):
+        super().__init__("{}")
+        self.manager = manager
 
     def get_player_name(self) -> str:
         return "Telegram"

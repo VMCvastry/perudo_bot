@@ -41,6 +41,12 @@ def start(update: Update, context: CallbackContext):
 
 
 def disclose_name(update: Update, context: CallbackContext):
+    db = Database()
+    user_id = update.effective_chat.id
+    user = update.effective_user
+    db.set_username(
+        user_id, user.username if user.username is not None else user.first_name
+    )
     query = update.callback_query
     query.answer()
     query.edit_message_text(
@@ -50,6 +56,9 @@ def disclose_name(update: Update, context: CallbackContext):
 
 
 def be_anon(update: Update, context: CallbackContext):
+    db = Database()
+    user_id = update.effective_chat.id
+    db.set_username(user_id, "Anon")
     query = update.callback_query
     query.answer()
     query.edit_message_text(
@@ -58,7 +67,7 @@ def be_anon(update: Update, context: CallbackContext):
     return ConversationHandler.END
 
 
-user_setup_handler = ConversationHandler(  # TODO set anon or not
+user_setup_handler = ConversationHandler(
     entry_points=[CommandHandler("start", start)],
     states={
         0: [

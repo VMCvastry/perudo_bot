@@ -19,14 +19,14 @@ class Game:
         self,
         game_players: dict[int, type[PlayerInterface]],
         selected_ui: UI,
-        no_timeout=[],
+        actual_players=[],
     ):
 
         self.players = {
             i: PlayerEntity(player, i) for i, player in game_players.items()
         }
-        for player_id in no_timeout:
-            self.players[player_id].timeout = False
+        for player_id, player_instance in actual_players:
+            self.players[player_id].instance = player_instance
 
         self.n_players = len(self.players)
         self.game_status = GameStatus(list(self.players.values()))

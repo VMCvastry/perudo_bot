@@ -42,7 +42,7 @@ class TelegramUI(UI):
         if player_id == self.player_id:
             self.bot.send_message(
                 chat_id=self.chat_id,
-                text="your dices:\n" + str(numbers),
+                text="your dices:\n" + str(numbers) + str(self.chat_id),
             )
         print("your dices:")
         print(numbers)
@@ -53,4 +53,3 @@ class TelegramUI(UI):
             text="result:\n" + str(result),
         )
         print(result)
-        input("continue")

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from timeout_manager import execute_with_timeout
+from bots.timeout_manager import execute_with_timeout
 
 if TYPE_CHECKING:
     from perudo_game.game.gameMove import GameMove
@@ -18,22 +18,20 @@ class PlayerEntity:
         self.numbers = []
         self.id = player_id
         self.status: str = "{}"
-        self.timeout = True
+        self.instance = None
 
     def set_rolled_dices(self, numbers: list[int]):
         self.numbers = numbers
 
     def make_move(self, info: GameInfo) -> GameMove:
-        if self.timeout:
+        if not self.instance:
             move, self.status = execute_with_timeout(
                 create_player_and_get_move,
                 (self.player, self.status, self.numbers, info),
-                timeout=self.timeout,
+                timeout=3,
             )
         else:
-            move, self.status = create_player_and_get_move(
-                self.player, self.status, self.numbers, info
-            )
+            move, _ = self.instance.make_a_move(info, self.numbers)
         return move
 
     def __str__(self):
