@@ -25,9 +25,9 @@ from telegram.ext import (
 
 
 def main():
-    print(os.environ["telegram_token"])
-    token = os.environ["telegram_token"]
-    if token is None:
+    try:
+        token = os.environ["telegram_token"]
+    except KeyError:
         from telegram_server.telegram_token import token
     updater = Updater(token=token, arbitrary_callback_data=True)
 
