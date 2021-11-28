@@ -1,8 +1,8 @@
 from telegram_server.human_player_logic.human_showdown import showdown_handler
 from telegram_server.telegram_commands import *
-from telegram_server.telegram_token import token
 from telegram_server.user_setup import user_setup_handler
 from telegram_server.upload_bot import upload_bot
+import os
 from telegram.ext import (
     CommandHandler,
     MessageHandler,
@@ -25,6 +25,10 @@ from telegram.ext import (
 
 
 def main():
+    print(os.environ["telegram_token"])
+    token = os.environ["telegram_token"]
+    if token is None:
+        from telegram_server.telegram_token import token
     updater = Updater(token=token, arbitrary_callback_data=True)
 
     dispatcher = updater.dispatcher
