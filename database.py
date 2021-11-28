@@ -17,7 +17,7 @@ def dict_factory(cursor, row):
 
 class Database:
     def __init__(self):
-        self.db = "../bots.db"
+        self.db = "./bots.db"
         self.sqliteConnection = None
         self.cursor = None
         self.open()
@@ -111,6 +111,17 @@ class Database:
             self.commit()
         except sqlite3.Error as error:
             print(f"Error while adding user", error)
+
+    def set_username(self, user_id, name):
+        try:
+            if not self.sqliteConnection:
+                self.open()
+            query = "UPDATE users SET name = ? WHERE telegram_id = ?"
+            data = (name, user_id)
+            self.cursor.execute(query, data)
+            self.commit()
+        except sqlite3.Error as error:
+            print(f"Error while changing user name", error)
 
     def get_user(self, telegram_id) -> User | None:
         try:

@@ -5,7 +5,7 @@ from telegram.ext import CallbackContext
 import telegram, requests
 from bots import get_new_bot
 from database import Database
-from ranking import rank_and_save_bot
+from telegram_server.ranking import rank_and_save_bot
 
 
 def download_file(url):

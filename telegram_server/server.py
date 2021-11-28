@@ -24,19 +24,20 @@ from telegram.ext import (
 # )
 
 
-updater = Updater(token=token, arbitrary_callback_data=True)
+def main():
+    updater = Updater(token=token, arbitrary_callback_data=True)
 
-dispatcher = updater.dispatcher
-handlers = [
-    user_setup_handler,
-    showdown_handler,
-    CommandHandler("leaderboard", get_leaderboard),
-    MessageHandler(Filters.text & (~Filters.command), echo),
-    CallbackQueryHandler(callback),
-    MessageHandler(Filters.document, upload_bot),
-]
-# upload_handler = CommandHandler("upload", upload_bot)
-for h in handlers:
-    dispatcher.add_handler(h)
+    dispatcher = updater.dispatcher
+    handlers = [
+        user_setup_handler,
+        showdown_handler,
+        CommandHandler("leaderboard", get_leaderboard),
+        MessageHandler(Filters.text & (~Filters.command), echo),
+        CallbackQueryHandler(callback),
+        MessageHandler(Filters.document, upload_bot),
+    ]
+    # upload_handler = CommandHandler("upload", upload_bot)
+    for h in handlers:
+        dispatcher.add_handler(h)
 
-updater.start_polling()
+    updater.start_polling()

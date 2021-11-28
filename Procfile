@@ -1,0 +1,1 @@
+web: python3 launch_server.py
