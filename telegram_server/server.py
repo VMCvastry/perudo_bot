@@ -29,6 +29,7 @@ def main():
         token = os.environ["telegram_token"]
     except KeyError:
         from telegram_server.telegram_token import token
+    port = int(os.environ.get("PORT", 80))
     updater = Updater(token=token, arbitrary_callback_data=True)
 
     dispatcher = updater.dispatcher
@@ -44,4 +45,10 @@ def main():
     for h in handlers:
         dispatcher.add_handler(h)
 
-    updater.start_polling()
+    updater.start_webhook(
+        listen="0.0.0.0",
+        port=int(port),
+        url_path=token,
+        webhook_url="https://perudo-arena-bot.herokuapp.com/" + token,
+    )
+    # updater.bot.setWebhook()
