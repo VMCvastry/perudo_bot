@@ -24,20 +24,24 @@ def start(update: Update, context: CallbackContext):
         return ConversationHandler.END
     else:
         db.add_user(User(user_id))
-        keyboard = InlineKeyboardMarkup(
+        return ask_if_anon(update, context)
+
+
+def ask_if_anon(update: Update, context: CallbackContext):
+    keyboard = InlineKeyboardMarkup(
+        [
             [
-                [
-                    InlineKeyboardButton("Yes", callback_data="disclose_name"),
-                    InlineKeyboardButton("be Anon", callback_data="be_anon"),
-                ]
+                InlineKeyboardButton("Yes", callback_data="disclose_name"),
+                InlineKeyboardButton("be Anon", callback_data="be_anon"),
             ]
-        )
-        context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text="Welcome, do you want to be shown in leadersboards as your nick?",
-            reply_markup=keyboard,
-        )
-        return 0
+        ]
+    )
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text="Welcome, do you want to be shown in leaderboard as your nick?",
+        reply_markup=keyboard,
+    )
+    return 0
 
 
 def disclose_name(update: Update, context: CallbackContext):
@@ -68,7 +72,10 @@ def be_anon(update: Update, context: CallbackContext):
 
 
 user_setup_handler = ConversationHandler(
-    entry_points=[CommandHandler("start", start)],
+    entry_points=[
+        CommandHandler("start", start),
+        CommandHandler("visible_name", ask_if_anon),
+    ],
     states={
         0: [
             CallbackQueryHandler(disclose_name, pattern="^disclose_name$"),
@@ -76,4 +83,5 @@ user_setup_handler = ConversationHandler(
         ]
     },
     fallbacks=[CommandHandler("start", start)],
+    # per_message=False,
 )

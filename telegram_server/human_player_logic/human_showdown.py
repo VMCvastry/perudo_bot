@@ -57,4 +57,5 @@ showdown_handler = ConversationHandler(
         CommandHandler("play", manager.choose_opponent)
     ],  # TODO what is fallbacks
     # conversation_timeout=10,
+    # per_message=False,
 )

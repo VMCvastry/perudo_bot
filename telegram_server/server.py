@@ -38,17 +38,19 @@ def main():
         showdown_handler,
         CommandHandler("leaderboard", get_leaderboard),
         MessageHandler(Filters.text & (~Filters.command), echo),
-        CallbackQueryHandler(callback),
+        # CallbackQueryHandler(callback),
         MessageHandler(Filters.document, upload_bot),
     ]
     # upload_handler = CommandHandler("upload", upload_bot)
     for h in handlers:
         dispatcher.add_handler(h)
-
-    updater.start_webhook(
-        listen="0.0.0.0",
-        port=int(port),
-        url_path=token,
-        webhook_url="https://perudo-arena-bot.herokuapp.com/" + token,
-    )
-    # updater.bot.setWebhook()
+    try:
+        token = os.environ["telegram_token"]
+        updater.start_webhook(
+            listen="0.0.0.0",
+            port=int(port),
+            url_path=token,
+            webhook_url="https://perudo-arena-bot.herokuapp.com/" + token,
+        )
+    except KeyError:
+        updater.start_polling()
