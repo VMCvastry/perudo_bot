@@ -1,13 +1,13 @@
 from telegram import Update
 from telegram.ext import CallbackContext
-
+from telegram_server.rules import rules
 from database import Database
 
 
 def echo(update: Update, context: CallbackContext):
     context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text=update.message.text + "not a valid command",
+        text=update.message.text + " is not a valid command",
     )
 
 
@@ -29,8 +29,15 @@ def get_leaderboard(update: Update, context: CallbackContext):
     context.bot.send_message(chat_id=update.effective_chat.id, text=leaderboard_format)
 
 
-# k = telegram.InlineKeyboardButton(text="awdaw", callback_data="ciao")
-# keyboard = telegram.InlineKeyboardMarkup([[k]])
+def show_upload_info(update: Update, context: CallbackContext):
+    upload_info = """To learn how to write your code go to https://github.com/VMCvastry/perudo_bot, unfortunalely at the moment Only python 3 is supported.
+Once you have written your Bot just drop the .py in this chat."""
+    context.bot.send_message(chat_id=update.effective_chat.id, text=upload_info)
+
+
+def show_rules(update: Update, context: CallbackContext):
+    context.bot.send_message(chat_id=update.effective_chat.id, text=rules)
+
 
 # def upload_bot(update: Update, context: CallbackContext):
 #     # context.bot.

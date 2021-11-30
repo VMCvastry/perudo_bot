@@ -37,9 +37,12 @@ def main():
         user_setup_handler,
         showdown_handler,
         CommandHandler("leaderboard", get_leaderboard),
-        MessageHandler(Filters.text & (~Filters.command), echo),
+        CommandHandler("game_info", show_rules),
+        CommandHandler("upload", show_upload_info),
         # CallbackQueryHandler(callback),
         MessageHandler(Filters.document, upload_bot),
+        MessageHandler(Filters.all, echo),
+        # MessageHandler(Filters.text & (~Filters.command), echo),
     ]
     # upload_handler = CommandHandler("upload", upload_bot)
     for h in handlers:
