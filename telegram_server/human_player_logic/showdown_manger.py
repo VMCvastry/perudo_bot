@@ -93,6 +93,12 @@ class ShowdownManager:
         self.timed_out = True
         return ConversationHandler.END
 
+    def show_error(self, e: Exception):
+        self.bot.send_message(
+            chat_id=self.chat_id,
+            text=str(e),
+        )
+
     def ask_for_move(self, bot, chat_id):
         if self.game.winner:
             self.thread.join()

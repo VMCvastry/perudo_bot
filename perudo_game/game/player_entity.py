@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from bots.timeout_manager import execute_with_timeout
+from perudo_game.exceptions import raise_exception_invalid_move
 
 if TYPE_CHECKING:
     from perudo_game.game.gameMove import GameMove
@@ -30,6 +31,7 @@ class PlayerEntity:
                 (self.player, self.status, self.numbers, info),
                 timeout=3,
             )
+            raise_exception_invalid_move(info, move)
         else:
             move, _ = self.instance.make_a_move(info, self.numbers)
         return move

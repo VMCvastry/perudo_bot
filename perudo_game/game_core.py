@@ -19,7 +19,7 @@ class Game:
         self,
         game_players: dict[int, type[PlayerInterface]],
         selected_ui: UI,
-        actual_players=[],
+        actual_players=[],  # not a problem since default type is not actually used
     ):
 
         self.players = {
