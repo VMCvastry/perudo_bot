@@ -81,7 +81,11 @@ class ShowdownManager:
             return 0
 
     def wait(self):
-        while not self.is_time_to_ask_for_move and not self.game.winner:
+        while (
+                not self.is_time_to_ask_for_move
+                and not self.game.winner
+                and not self.game.exception
+        ):
             time.sleep(0.5)
         self.is_time_to_ask_for_move = False
 
@@ -105,6 +109,14 @@ class ShowdownManager:
             bot.send_message(
                 chat_id=chat_id,
                 text=f"player {self.game.winner[0]} won",
+            )
+            self.timed_out = True
+            return ConversationHandler.END
+        if self.game.exception:
+            self.thread.join()
+            bot.send_message(
+                chat_id=chat_id,
+                text=f"Game interrupted, an error occurred with player {self.game.exception.player_id}:\n{str(self.game.exception)}",
             )
             self.timed_out = True
             return ConversationHandler.END

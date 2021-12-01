@@ -5,7 +5,6 @@ from perudo_game.game.gameMove import GameMove
 from perudo_game.game.gameStatus import GameStatus
 from perudo_game.game.player_entity import PlayerEntity
 from perudo_game.players import PlayerInterface
-from perudo_game.players.player1 import Bot1
 from perudo_game.players.CLI_player import HumanPlayer
 from perudo_game.ui import UI, CLI
 
@@ -33,6 +32,7 @@ class Game:
         self.next_player_id = random.randint(0, self.n_players - 1)
         self.ui = selected_ui
         self.winner = None
+        self.exception: PlayerException = None
 
     def on_going(self):
         return len(self.game_status.players) != 1
@@ -83,7 +83,8 @@ class Game:
             self.ui.show_players_dices(player.numbers, player.id)
             try:
                 move = player.make_move(self.game_status.get_game_info())
-            except TimeoutError as e:
+            except Exception as e:
+                self.exception = PlayerException(player.id, e)
                 raise PlayerException(player.id, e)
             if not move:
                 self.check()
@@ -94,11 +95,10 @@ class Game:
         self.winner = [self.next_player_id]
         return self.next_player_id
 
-
-if __name__ == "__main__":
-    ui = CLI()
-    players = {
-        0: HumanPlayer,
-        1: Bot1,
-    }
-    Game(players, ui).start()
+# if __name__ == "__main__":
+#     ui = CLI()
+#     players = {
+#         0: HumanPlayer,
+#         1: Bot1,
+#     }
+#     Game(players, ui).start()

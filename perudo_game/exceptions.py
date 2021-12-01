@@ -8,7 +8,9 @@ class PlayerException(Exception):
 
 class IllegalMove(Exception):
     def __init__(self):
-        self.message = "move.numbers must be in [1,6] and amount must be >0"
+        self.message = (
+            "move.numbers must be an integer in [1,6] and amount must be and integer >0"
+        )
         super().__init__(self.message)
 
 

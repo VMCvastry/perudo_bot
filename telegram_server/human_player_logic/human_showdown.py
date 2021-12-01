@@ -33,7 +33,7 @@ class Manager:
     def call_bluff(self, update: Update, context: CallbackContext):
         return self.active_chats[update.effective_chat.id].call_bluff(update, context)
 
-    def get_amount(self, update: Update, context: CallbackContext):
+    def get_amount(self, update: Update, context: CallbackContext):  # todo must be int
         return self.active_chats[update.effective_chat.id].get_amount(update, context)
 
 
