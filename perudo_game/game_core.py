@@ -95,6 +95,7 @@ class Game:
         self.winner = [self.next_player_id]
         return self.next_player_id
 
+
 # if __name__ == "__main__":
 #     ui = CLI()
 #     players = {
