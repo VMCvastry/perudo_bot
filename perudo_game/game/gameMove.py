@@ -4,11 +4,11 @@ from perudo_game.exceptions import IllegalMove
 class GameMove:
     def __init__(self, number, amount):
         if (
-                not isinstance(number, int)
-                or isinstance(amount, int)
-                or number > 6
-                or number < 1
-                or amount < 1
+            not isinstance(number, int)
+            or not isinstance(amount, int)
+            or number > 6
+            or number < 1
+            or amount < 1
         ):
             raise IllegalMove
         self.number: int = number

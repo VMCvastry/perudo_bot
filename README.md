@@ -13,15 +13,18 @@ Unfortunately at the moment Only python 3 is currently supported.
 Since it needs to be run on ours server and need to be compatible with the current implementation of the game 
 your code must follow a few guidelines:
 * First the bot must extend the [PlayerInterface](perudo_game/players/playerInterface.py) superclass.
+* The class must be called `Player`
+* So the class definition will be `class Player(PlayerInterface):`
 * You Must override just the two abstract methods.
-* `get_player_name` must be  a static method that  just returns a string which will be your bots nickname.
+* `get_player_name` must be a static method that just returns a string which will be your bots nickname.
     ```python
     @staticmethod
     def get_player_name() -> str:
         return "Pippo the Bluffer"
     ```
 * `move` must take two arguments and return a [GameMove](perudo_game/game/gameMove.py) or  `None` if you call the bluff.
-* The first argument of type [GameInfo](perudo_game/game/game_info.py) that will give you all the information on the current round.
+* The first argument of type [GameInfo](perudo_game/game/game_info.py) that will give you all the information on the
+  current round.
 * The second will be a list of integers representing your dices
 * Inside your player you will have access to a `self.status` dict where you can store all the information and computation 
     that you want to preserve between moves, **Everything else inside the player Object will be resetted on each move**

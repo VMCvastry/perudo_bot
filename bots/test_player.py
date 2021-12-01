@@ -1,4 +1,5 @@
 import random, json
+import traceback
 import unittest
 from copy import deepcopy
 
@@ -6,7 +7,11 @@ from perudo_game.game.gameMove import GameMove
 from perudo_game.game.game_info import GameInfo
 from perudo_game.game.player_entity import PlayerEntity
 from perudo_game.players import PlayerInterface
-from perudo_game.players.playerTest import BotTest
+
+
+class TestNotPassedException(Exception):
+    def __init__(self, message):
+        super().__init__(message)
 
 
 def is_valid_move(info: GameInfo, move: GameMove):  # todo raise error in Game_Core
@@ -53,18 +58,18 @@ def generate_numbers():
     return [random.randint(1, 6) for _ in range(n_dices)]
 
 
-def test_not_none_on_start():
+def test_not_none_on_start(bot: type[PlayerInterface]):
     info = generate_random_status_first_move()
-    player = BotTest("{}")
+    player = bot("{}")
     move, status = player.make_a_move(deepcopy(info), generate_numbers())
     return (
         isinstance(move, GameMove) and isinstance(status, str) and is_valid_json(status)
     )
 
 
-def test_valid_move():
+def test_valid_move(bot: type[PlayerInterface]):
     info = generate_random_status()
-    player = BotTest("{}")
+    player = bot("{}")
     move, status = player.make_a_move(deepcopy(info), generate_numbers())
     return (
         (isinstance(move, GameMove) and is_valid_move(info, move) or move is None)
@@ -73,30 +78,46 @@ def test_valid_move():
     )
 
 
-class MyTestCase(unittest.TestCase):
+class TestBot:
     n_tests = 100
-    # def setUp(self):
-    #     self.player: PlayerInterface = BotTest("{}")
-    #     self.players = [PlayerEntity(BotTest, 0), PlayerEntity(BotTest, 1)]
+
+    def __init__(self, bot: type[PlayerInterface]):
+        self.bot = bot
 
     def test_is_player_instance(self):
-        self.assertIsInstance(BotTest("{}"), PlayerInterface)
+        return isinstance(self.bot("{}"), PlayerInterface)
 
     def test_name_not_null(self):
-        self.assertIsInstance(BotTest.get_player_name(), str)
+        return isinstance(self.bot.get_player_name(), str)
 
     def test_not_none_on_start(self):
         valid = True
         for _ in range(self.n_tests):
-            valid = valid and test_not_none_on_start()
-        self.assertTrue(valid)
+            valid = valid and test_not_none_on_start(self.bot)
+        return valid
 
     def test_valid_move(self):
         valid = True
         for _ in range(self.n_tests):
-            valid = valid and test_valid_move()
-        self.assertTrue(valid)
+            valid = valid and test_valid_move(self.bot)
+        return valid
 
-
-if __name__ == "__main__":
-    unittest.main()
+    def test(self):
+        try:
+            passed_all_tests = all(
+                [
+                    self.test_is_player_instance(),
+                    self.test_name_not_null(),
+                    self.test_not_none_on_start(),
+                    self.test_valid_move(),
+                ]
+            )
+        except NameError as e:
+            raise TestNotPassedException(
+                "You are using an undefined or forbidden function.\n" + str(e)
+            )
+        except Exception as e:
+            traceback.print_exc()
+            raise TestNotPassedException("Provided tests did not pass")
+        if not passed_all_tests:
+            raise TestNotPassedException("Provided tests did not pass")

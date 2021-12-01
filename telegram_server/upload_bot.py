@@ -4,6 +4,7 @@ from telegram import Update
 from telegram.ext import CallbackContext
 import telegram, requests
 from bots import get_new_bot
+from bots.test_player import TestNotPassedException
 from database import Database
 from telegram_server.ranking import rank_and_save_bot
 
@@ -24,6 +25,13 @@ def upload_bot(update: Update, context: CallbackContext):
     user_id = update.effective_chat.id
     try:
         bot = get_new_bot(user_id, code)
+    except TestNotPassedException as e:
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="Your bot does not meet the guidelines and did not pass the provided test, use /upload to get more info on the guidelines:\n"
+            + str(e),
+        )
+        return
     except Exception as e:
         traceback.print_exc()
         return

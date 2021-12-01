@@ -6,10 +6,10 @@ from perudo_game.game.game_info import GameInfo
 from perudo_game.players import PlayerInterface
 
 
-class DemoBot(PlayerInterface):
+class Player(PlayerInterface):
     @staticmethod
     def get_player_name() -> str:
-        return "Bot_1"
+        return "Demo_Bot"
 
     def move(self, status: GameInfo, numbers) -> GameMove:
         numbers = Counter(numbers)

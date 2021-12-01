@@ -54,7 +54,13 @@ class ShowdownManager:
 
     def launch_duel(self, update: Update, context: CallbackContext):
         opponent_raw_id = update.message.text
-        opponent_id = int(opponent_raw_id)  # TODO try catch
+        try:
+            opponent_id = int(opponent_raw_id)  # TODO try catch
+        except ValueError:
+            context.bot.send_message(
+                chat_id=update.effective_chat.id, text="Id must be a number"
+            )
+            return 0
         db = Database()
         bot = db.get_bot(opponent_id)
         if bot:
@@ -82,9 +88,9 @@ class ShowdownManager:
 
     def wait(self):
         while (
-                not self.is_time_to_ask_for_move
-                and not self.game.winner
-                and not self.game.exception
+            not self.is_time_to_ask_for_move
+            and not self.game.winner
+            and not self.game.exception
         ):
             time.sleep(0.5)
         self.is_time_to_ask_for_move = False
