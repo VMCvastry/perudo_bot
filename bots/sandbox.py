@@ -5,11 +5,14 @@ from perudo_game.game.game_info import GameInfo
 import random, json
 from collections import Counter
 
+removed_functions = ["print", "eval", "exec"]
+
 
 def get_sandbox_bot(bot: Bot) -> type[PlayerInterface]:
     global_scope = {"__builtins__": __builtins__.copy()}
     # print(global_scope["__builtins__"])
-    # del global_scope["__builtins__"]["print"]
+    for f in removed_functions:
+        del global_scope["__builtins__"][f]
     # print(PlayerInterface.__dict__)
     local_scope = {
         "GameInfo": GameInfo,

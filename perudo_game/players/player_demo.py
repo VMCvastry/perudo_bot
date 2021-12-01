@@ -6,17 +6,12 @@ from perudo_game.game.game_info import GameInfo
 from perudo_game.players import PlayerInterface
 
 
-class Bot1(PlayerInterface):
-    # TODO player_id in abstract interface
-    def __init__(self, player_status_JSON):
-        super().__init__(player_status_JSON)
-
+class DemoBot(PlayerInterface):
     @staticmethod
     def get_player_name() -> str:
         return "Bot_1"
 
     def move(self, status: GameInfo, numbers) -> GameMove:
-        print("MOVING")
         numbers = Counter(numbers)
         value, n = numbers.most_common(1)[0]
         if status.first_call:

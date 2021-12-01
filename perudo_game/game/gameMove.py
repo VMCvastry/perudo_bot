@@ -3,6 +3,7 @@ from perudo_game.exceptions import IllegalMove
 
 class GameMove:
     def __init__(self, number, amount):
+        # todo check if ints
         if number > 6 or number < 1 or amount < 1:
             raise IllegalMove
         self.number: int = number
