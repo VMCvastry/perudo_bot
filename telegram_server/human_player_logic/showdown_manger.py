@@ -55,7 +55,7 @@ class ShowdownManager:
     def launch_duel(self, update: Update, context: CallbackContext):
         opponent_raw_id = update.message.text
         try:
-            opponent_id = int(opponent_raw_id)  # TODO try catch
+            opponent_id = int(opponent_raw_id)
         except ValueError:
             context.bot.send_message(
                 chat_id=update.effective_chat.id, text="Id must be a number"

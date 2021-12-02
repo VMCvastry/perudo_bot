@@ -17,7 +17,6 @@ telegram_timeout_secs = 500
 
 
 class TelegramPlayer(PlayerInterface):
-    # TODO player_id in abstract interface
     def __init__(self, manager):
         super().__init__("{}")
         self.manager = manager

@@ -5,7 +5,6 @@ from perudo_game.game.game_info import GameInfo
 from .player_entity import PlayerEntity
 
 
-# TODO pass copy to user
 class GameStatus:
     def __init__(self, players: list[PlayerEntity]):
         self.players: list[PlayerEntity] = players

@@ -13,7 +13,7 @@ class TestNotPassedException(Exception):
         super().__init__(message)
 
 
-def is_valid_move(info: GameInfo, move: GameMove):  # todo raise error in Game_Core
+def is_valid_move(info: GameInfo, move: GameMove):
     last = info.moves_history[-1][-1]
     return move.amount > last.amount or (
         move.amount == last.amount and move.number > last.number
