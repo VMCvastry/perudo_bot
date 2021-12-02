@@ -24,13 +24,13 @@ def get_leaderboard(update: Update, context: CallbackContext):
     users = db.get_all_user()
     for bot in bots:
         bot.username = users[bot.user_id].get_name()
-    [print(x) for x in leaderboard]
+    # [print(x) for x in leaderboard]
     leaderboard_format = "\n".join([str(x) for x in leaderboard])
     context.bot.send_message(chat_id=update.effective_chat.id, text=leaderboard_format)
 
 
 def show_upload_info(update: Update, context: CallbackContext):
-    upload_info = """To learn how to write your code go to https://github.com/VMCvastry/perudo_bot, unfortunalely at the moment Only python 3 is supported.
+    upload_info = """To learn how to write your code go to https://github.com/VMCvastry/perudo_bot, unfortunately at the moment Only python 3 is supported.
 Once you have written your Bot just drop the .py in this chat."""
     context.bot.send_message(chat_id=update.effective_chat.id, text=upload_info)
 

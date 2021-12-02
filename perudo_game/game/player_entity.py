@@ -37,7 +37,7 @@ class PlayerEntity:
         return move
 
     def __str__(self):
-        return f"player: {self.id}, {self.n_dices} dices"
+        return f"Player {self.id} has {self.n_dices} dices left"
 
 
 def create_player_and_get_move(player, status, numbers, info):

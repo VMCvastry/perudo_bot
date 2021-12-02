@@ -124,6 +124,7 @@ class TestBot:
 
 if __name__ == "__main__":
     from perudo_game.players.player_demo import Player  # import your Bot HERE
+
     player_to_test = Player
     TestBot(player_to_test).test()
     print("All tests passed!")

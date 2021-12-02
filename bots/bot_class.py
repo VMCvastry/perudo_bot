@@ -20,6 +20,4 @@ class Bot:
         )
 
     def __str__(self):
-        return (
-            f"{self.name} by {self.username}: {self.get_win_ratio() * 100}% victories "
-        )
+        return f"{self.name} (id: {self.bot_id}) by {self.username}: {self.get_win_ratio() * 100}% victories "

@@ -47,7 +47,7 @@ class ShowdownManager:
     def choose_opponent(self, update: Update, context: CallbackContext):
         context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text="choose your opponent id",
+            text="Choose your opponent id\nUse /leaderboard to see the available bots",
             # reply_markup=keyboard,
         )
         return 0
@@ -66,7 +66,7 @@ class ShowdownManager:
         if bot:
             self.opponent_id = opponent_id
             context.bot.send_message(
-                chat_id=update.effective_chat.id, text="game is starting"
+                chat_id=update.effective_chat.id, text="Game is starting!"
             )
             self.bot = context.bot
             self.chat_id = update.effective_chat.id
@@ -128,7 +128,7 @@ class ShowdownManager:
             return ConversationHandler.END
         bot.send_message(
             chat_id=chat_id,
-            text="your move:",
+            text="Choose a dice face to rise the bet on\nOtherwise Call the bluff",
             reply_markup=dices_keyboard,
         )
         return 1

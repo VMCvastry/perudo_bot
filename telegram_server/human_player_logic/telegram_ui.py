@@ -14,19 +14,19 @@ class TelegramUI(UI):
     def show_header(self):
         self.bot.send_message(
             chat_id=self.chat_id,
-            text="header",
+            text="You are Player 0",
         )
 
     def show_summary(self, game: GameStatus):
         self.bot.send_message(
             chat_id=self.chat_id,
-            text="summary\n" + "\n".join([str(p) for p in game.players]),
+            text="Game Status:\n" + "\n".join([str(p) for p in game.players]),
         )
 
     def show_round(self, moves: list[list[GameMove]]):
         self.bot.send_message(
             chat_id=self.chat_id,
-            text="pastmoves\n" + "\n".join([str(m) for m in moves[-1]]),
+            text="Past Moves List:\n" + "\n".join([str(m) for m in moves[-1]]),
         )
         print("pastmoves\n" + "\n".join([str(m) for m in moves[-1]]))
 
@@ -42,14 +42,39 @@ class TelegramUI(UI):
         if player_id == self.player_id:
             self.bot.send_message(
                 chat_id=self.chat_id,
-                text="your dices:\n" + str(numbers) + str(self.chat_id),
+                text="Your dices:\n" + " ".join(map(str, numbers)),
             )
         print("your dices:")
         print(numbers)
 
+    def show_player_move(self, move, player_id):
+        if player_id != self.player_id:
+            if not move:
+                self.bot.send_message(
+                    chat_id=self.chat_id,
+                    text=f"Player {player_id} called the Bluff",
+                )
+            else:
+                self.bot.send_message(
+                    chat_id=self.chat_id,
+                    text=str(move),
+                )
+
     def show_result(self, result):
+        if result:
+            self.bot.send_message(
+                chat_id=self.chat_id,
+                text="The Player was not bluffing",
+            )
+        else:
+            self.bot.send_message(
+                chat_id=self.chat_id,
+                text="It was a Bluff!",
+            )
+        print(result)
+
+    def show_winner(self, player_id):
         self.bot.send_message(
             chat_id=self.chat_id,
-            text="result:\n" + str(result),
+            text=f"Player {player_id} has Won!",
         )
-        print(result)

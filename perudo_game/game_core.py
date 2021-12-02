@@ -87,10 +87,12 @@ class Game:
                 self.exception = PlayerException(player.id, e)
                 raise PlayerException(player.id, e)
             if not move:
+                self.ui.show_player_move(move, player.id)
                 self.check()
             else:
                 move.player_id = player.id
                 self.evaluate_move(move)
+                self.ui.show_player_move(move, player.id)
         print(f"player {self.next_player_id} won")
         self.winner = [self.next_player_id]
         return self.next_player_id

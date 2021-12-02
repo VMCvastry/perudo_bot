@@ -16,4 +16,4 @@ class GameMove:
         self.player_id: int = None
 
     def __str__(self):
-        return f"player {self.player_id} called {self.number} with multiplicity {self.amount}"
+        return f"Player {self.player_id} called {self.number} with multiplicity {self.amount}"

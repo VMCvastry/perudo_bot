@@ -28,3 +28,11 @@ class UI(ABC):
     @abstractmethod
     def show_result(self, result):
         pass
+
+    @abstractmethod
+    def show_player_move(self, move, player_id):
+        pass
+
+    @abstractmethod
+    def show_winner(self, player_id):
+        pass

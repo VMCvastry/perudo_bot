@@ -34,3 +34,9 @@ class NoUI(UI):
         # print(result)
         # input("continue")
         pass
+
+    def show_player_move(self, move, player_id):
+        pass
+
+    def show_winner(self, player_id):
+        pass
