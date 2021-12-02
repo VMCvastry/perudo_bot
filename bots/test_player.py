@@ -5,7 +5,6 @@ from copy import deepcopy
 
 from perudo_game.game.gameMove import GameMove
 from perudo_game.game.game_info import GameInfo
-from perudo_game.game.player_entity import PlayerEntity
 from perudo_game.players import PlayerInterface
 
 
@@ -121,3 +120,10 @@ class TestBot:
             raise TestNotPassedException("Provided tests did not pass")
         if not passed_all_tests:
             raise TestNotPassedException("Provided tests did not pass")
+
+
+if __name__ == "__main__":
+    from perudo_game.players.player_demo import Player  # import your Bot HERE
+    player_to_test = Player
+    TestBot(player_to_test).test()
+    print("All tests passed!")

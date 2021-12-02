@@ -33,6 +33,14 @@ your code must follow a few guidelines:
   Eg using functions like `print`, `eval` will throw an error, importing other moules outside the listed ones will throw an error.
   _If you think that a particular module should be available open an Issue and if it is safe it will be added right away_
 * Check the [DemoBot](perudo_game/players/player_demo.py) to solve all of  your doubts.
+* You can test if your bot will run locally by launching the [test_player](bots/test_player.py) file, just import your bot at the end of the file.
+    ```python
+    if __name__ == "__main__":
+        from perudo_game.players.player_demo import Player  # import your Bot HERE
+        player_to_test = Player
+        TestBot(player_to_test).test()
+        print("All tests passed!")
+  ```
 
 ## More info on the provided classes
 ### GameMove
