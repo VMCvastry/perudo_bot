@@ -21,17 +21,17 @@ def play_game(players, ui, results, i):
 
 
 def find_winner(players, ui):
-    n = 3
+    n = 25
     results = [-1] * n
     threads = set()
     for i in range(n):
-        play_game(players, ui, results, i)
-    #     t = Thread(target=play_game, args=(players, ui, results, i))
-    #     threads.add(t)
-    #     t.start()
-    #     time.sleep(0.001)
-    # for t in threads:
-    #     t.join()
+        # play_game(players, ui, results, i)
+        t = Thread(target=play_game, args=(players, ui, results, i))
+        threads.add(t)
+        t.start()
+        time.sleep(0.001)
+    for t in threads:
+        t.join()
     print(results)
     print(Counter(results))
     winner = Counter(results).most_common(1)[0][0]

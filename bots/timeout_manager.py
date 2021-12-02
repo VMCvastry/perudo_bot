@@ -36,11 +36,12 @@ def execute_with_timeout(function, args: tuple, timeout=3):
         name="P",
     )
     p1.start()
+    time.sleep(0.001)
     p1.join(timeout=timeout)
-    p1.terminate()
-    print(p1)
-    print(p1.exitcode)
     if p1.exitcode is None:
-        print(f"Oops, {p1} timeouts!")
-        raise TimeoutError
+        time.sleep(1)
+        if p1.exitcode is None:
+            print(f"Oops, {p1} timeouts!")
+            raise TimeoutError
+    p1.terminate()
     return q.get() if not q.empty() else None
