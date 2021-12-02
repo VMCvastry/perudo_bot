@@ -145,6 +145,7 @@ class ShowdownManager:
         return 2
 
     def call_bluff(self, update: Update, context: CallbackContext):
+        update.callback_query.answer()
         if self.timed_out:
             return self.call_timeout()
         self.next_move = [None, None]

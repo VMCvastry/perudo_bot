@@ -5,6 +5,12 @@ from perudo_game.game.game_info import GameInfo
 from .player_entity import PlayerEntity
 
 
+def get_index(array, id):
+    for i, player in enumerate(array):
+        if player.id == id:
+            return i
+
+
 class GameStatus:
     def __init__(self, players: list[PlayerEntity]):
         self.players: list[PlayerEntity] = players
@@ -31,7 +37,9 @@ class GameStatus:
         return self.moves_history[-1][-1]
 
     def next_id(self, id):
-        return (id + 1) % len(self.players)
+        index = get_index(self.players, id)
+        new_index = (index + 1) % len(self.players)
+        return self.players[new_index].id
 
     def last_id(self, id):
         return (id - 1) % len(self.players)

@@ -13,7 +13,7 @@ from telegram.ext import CallbackContext
 from perudo_game.game.game_info import GameInfo
 from perudo_game.players import PlayerInterface
 
-telegram_timeout_secs = 500
+telegram_timeout_secs = 300
 
 
 class TelegramPlayer(PlayerInterface):

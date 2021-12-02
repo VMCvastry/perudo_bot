@@ -45,9 +45,9 @@ class Game:
     def penalty(self, id):
         self.players[id].n_dices -= 1
         if self.players[id].n_dices == 0:
-            self.game_status.players.remove(self.players[id])
             if id == self.next_player_id:
                 self.next_player_id = self.game_status.next_id(self.next_player_id)
+            self.game_status.players.remove(self.players[id])
         else:
             self.next_player_id = id
 

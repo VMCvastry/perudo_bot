@@ -15,7 +15,7 @@ class PlayerEntity:
     def __init__(self, player: type[PlayerInterface], player_id):
         self.player = player
         # self.tokens = 21
-        self.n_dices = 6
+        self.n_dices = 5
         self.numbers = []
         self.id = player_id
         self.status: str = "{}"
