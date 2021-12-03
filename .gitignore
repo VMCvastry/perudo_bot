@@ -2,3 +2,4 @@
 /venv/
 telegram_server/telegram_token.py
 /telegramTests/
+/players/

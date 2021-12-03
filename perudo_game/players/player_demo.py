@@ -12,8 +12,8 @@ class Player(PlayerInterface):
         return "Demo_Bot"
 
     def move(self, status: GameInfo, numbers) -> GameMove:
-        numbers = Counter(numbers)
-        value, n = numbers.most_common(1)[0]
+        numbers_counter = Counter(numbers)
+        value, n = numbers_counter.most_common(1)[0]
         if status.first_call:
             return GameMove(value, n)
         else:

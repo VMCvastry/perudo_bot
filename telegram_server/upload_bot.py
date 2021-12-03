@@ -16,13 +16,19 @@ def download_file(url):
 
 def upload_bot(update: Update, context: CallbackContext):
     db_path = "../bots.db"
-    # db = Database(db_path)
+    db = Database()
     document = update.message.document
     name = document.file_name
     file_id = document.file_id
     file_path = context.bot.getFile(file_id).file_path
     code = download_file(file_path)
     user_id = update.effective_chat.id
+    if db.get_user(user_id) is None:
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="You are not present in the Database, use /start to register",
+        )
+        return
     try:
         bot = get_new_bot(user_id, code)
     except TestNotPassedException as e:
