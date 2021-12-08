@@ -43,6 +43,7 @@ class ShowdownManager:
         self.bot = None
         self.chat_id = None
         self.timed_out = False
+        self.interrupted = False
 
     def choose_opponent(self, update: Update, context: CallbackContext):
         context.bot.send_message(
@@ -66,7 +67,8 @@ class ShowdownManager:
         if bot:
             self.opponent_id = opponent_id
             context.bot.send_message(
-                chat_id=update.effective_chat.id, text="Game is starting!"
+                chat_id=update.effective_chat.id,
+                text="Game is starting!\nUse /stop to interrupt the game",
             )
             self.bot = context.bot
             self.chat_id = update.effective_chat.id
@@ -156,6 +158,25 @@ class ShowdownManager:
         if self.timed_out:
             return self.call_timeout()
         amount = update.message.text
-        self.next_move = [self.number_to_bet_on, int(amount)]
-        self.wait()
-        return self.ask_for_move(context.bot, update.effective_chat.id)
+        try:
+            amount = int(amount)
+            if amount <= 0:
+                raise ValueError
+            self.next_move = [self.number_to_bet_on, amount]
+            self.wait()
+            return self.ask_for_move(context.bot, update.effective_chat.id)
+        except ValueError:
+            context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text="Amount must be a positive number",
+            )
+            return 2
+
+    def kill_game(self, update: Update, context: CallbackContext):
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="The game was Interrupted",
+        )
+        self.interrupted = True
+        self.thread.join()
+        return ConversationHandler.END

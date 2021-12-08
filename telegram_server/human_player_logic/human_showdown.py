@@ -33,8 +33,13 @@ class Manager:
     def call_bluff(self, update: Update, context: CallbackContext):
         return self.active_chats[update.effective_chat.id].call_bluff(update, context)
 
-    def get_amount(self, update: Update, context: CallbackContext):  # todo must be int
+    def get_amount(self, update: Update, context: CallbackContext):
         return self.active_chats[update.effective_chat.id].get_amount(update, context)
+
+    def kill_game(self, update: Update, context: CallbackContext):
+        manager_to_kill = self.active_chats[update.effective_chat.id]
+        del self.active_chats[update.effective_chat.id]
+        return manager_to_kill.kill_game(update, context)
 
 
 manager = Manager()
@@ -53,9 +58,7 @@ showdown_handler = ConversationHandler(
         ],
         # -2: [MessageHandler(Filters.all, manager.call_timeout)],
     },
-    fallbacks=[
-        CommandHandler("play", manager.choose_opponent)
-    ],  # TODO what is fallbacks
+    fallbacks=[CommandHandler("stop", manager.kill_game)],
     # conversation_timeout=10,
     # per_message=False,
 )

@@ -30,9 +30,12 @@ class TelegramPlayer(PlayerInterface):
             start_time = time.time()
             while (
                 not self.manager.next_move
+                and not self.manager.interrupted
                 and (time.time() - start_time) < telegram_timeout_secs
             ):
                 time.sleep(0.5)
+            if self.manager.interrupted:
+                raise InterruptedError
             if not self.manager.next_move:
                 self.manager.call_timeout()
                 raise TimeoutError

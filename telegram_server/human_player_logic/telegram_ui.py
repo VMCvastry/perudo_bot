@@ -20,7 +20,8 @@ class TelegramUI(UI):
     def show_summary(self, game: GameStatus):
         self.bot.send_message(
             chat_id=self.chat_id,
-            text="Game Status:\n" + "\n".join([str(p) for p in game.players]),
+            text=f"Game Status on round {game.round}:\n"
+            + "\n".join([str(p) for p in game.players]),
         )
 
     def show_round(self, moves: list[list[GameMove]]):

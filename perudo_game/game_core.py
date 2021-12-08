@@ -69,6 +69,7 @@ class Game:
         self.game_status.add_move(move)
 
     def start_round(self):
+        self.game_status.round += 1
         self.ui.show_summary(self.game_status)
         for id, player in self.players.items():
             player.set_rolled_dices([roll_dice() for _ in range(player.n_dices)])

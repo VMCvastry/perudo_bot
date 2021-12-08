@@ -14,7 +14,7 @@ def get_index(array, id):
 class GameStatus:
     def __init__(self, players: list[PlayerEntity]):
         self.players: list[PlayerEntity] = players
-        self.round: int = 0  # TODO use
+        self.round: int = 0
         self.moves_history: list[[GameMove]] = [[]]
 
     def get_game_info(self) -> GameInfo:
