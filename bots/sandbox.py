@@ -1,3 +1,6 @@
+import itertools
+import math
+
 from bots.bot_class import Bot
 from perudo_game.players import PlayerInterface
 from perudo_game.game.gameMove import GameMove
@@ -22,6 +25,8 @@ def get_sandbox_bot(bot: Bot) -> type[PlayerInterface]:
         "Counter": Counter,
         "random": random,
         "json": json,
+        "math": math,
+        "itertools": itertools,
     }
     global_scope.update(local_scope)
     exec(bot.code, global_scope, local_scope)

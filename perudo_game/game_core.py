@@ -96,12 +96,3 @@ class Game:
         print(f"player {self.next_player_id} won")
         self.winner = [self.next_player_id]
         return self.next_player_id
-
-
-# if __name__ == "__main__":
-#     ui = CLI()
-#     players = {
-#         0: HumanPlayer,
-#         1: Bot1,
-#     }
-#     Game(players, ui).start()

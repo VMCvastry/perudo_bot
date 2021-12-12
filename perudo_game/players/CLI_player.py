@@ -8,18 +8,15 @@ class HumanPlayer(PlayerInterface):
     def __init__(self, player_status_JSON):
         super().__init__(player_status_JSON)
 
-    @staticmethod
-    def get_player_name() -> str:
-        return "cli_player"
-
-    def make_a_move(self, status: GameInfo, numbers) -> (GameMove, str):
+    def move(self, status: GameInfo, numbers: list[int]) -> GameMove:
         n = input("amount")
         if not n:
-            return None, self.get_ending_status_as_JSON()
+            return None
         else:
 
             number = input("number:")
-            return GameMove(int(number), int(n)), self.get_ending_status_as_JSON()
+            return GameMove(int(number), int(n))
 
-    def get_ending_status_as_JSON(self) -> str:
-        return json.dumps(self.status)
+    @staticmethod
+    def get_player_name() -> str:
+        return "cli_player"

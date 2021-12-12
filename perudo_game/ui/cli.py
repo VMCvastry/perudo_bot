@@ -10,7 +10,7 @@ class CLI(UI):
         print("header")
 
     def show_summary(self, game: GameStatus):
-        os.system("clear")
+        # os.system("clear")
         print("summary")
         [print(p) for p in game.players]
 
@@ -21,7 +21,7 @@ class CLI(UI):
         print("the dices are")
         print([p.numbers for p in game.players])
 
-    def show_players_dices(self, numbers: list[int]):
+    def show_players_dices(self, numbers: list[int], player_id):
         print("your dices:")
         print(numbers)
 
