@@ -28,8 +28,10 @@ def is_valid_json(encoded):
     return True
 
 
-def generate_random_history(n_players):  # TODO real history generator
-    return [[GameMove(1, 3)]]
+def generate_random_history(playersInfo):  # TODO real history generator
+    g = GameMove(1, 3)
+    g.player_id = playersInfo[0][0]
+    return [[g]]
 
 
 def generate_random_status():
@@ -38,7 +40,10 @@ def generate_random_status():
         (random.randint(0, 50), random.randint(0, 6)) for _ in range(n_players)
     ]
     return GameInfo(
-        players_info, random.randint(0, 100), generate_random_history(n_players), False
+        players_info,
+        random.randint(0, 100),
+        generate_random_history(players_info),
+        False,
     )
 
 
@@ -47,7 +52,7 @@ def generate_random_status_first_move():
     players_info = [
         (random.randint(0, 50), random.randint(0, 6)) for _ in range(n_players)
     ]
-    history = generate_random_history(n_players)
+    history = generate_random_history(players_info)
     history.append([])
     return GameInfo(players_info, random.randint(0, 100), history, True)
 

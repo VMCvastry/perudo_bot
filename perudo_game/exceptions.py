@@ -26,7 +26,7 @@ class InvalidBluff(Exception):
         super().__init__(self.message)
 
 
-def raise_exception_invalid_move(info, move):
+def raise_exception_if_invalid_move(info, move):
 
     if not info.moves_history[-1]:
         if move is None:

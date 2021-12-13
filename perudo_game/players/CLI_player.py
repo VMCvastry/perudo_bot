@@ -1,3 +1,4 @@
+from perudo_game.exceptions import raise_exception_if_invalid_move
 from perudo_game.game.gameMove import GameMove
 import json
 from perudo_game.game.game_info import GameInfo
@@ -15,7 +16,9 @@ class HumanPlayer(PlayerInterface):
         else:
 
             number = input("number:")
-            return GameMove(int(number), int(n))
+            move = GameMove(int(number), int(n))
+            raise_exception_if_invalid_move(status, move)
+            return move
 
     @staticmethod
     def get_player_name() -> str:

@@ -3,7 +3,7 @@ import time
 import telegram
 
 from perudo_game.exceptions import (
-    raise_exception_invalid_move,
+    raise_exception_if_invalid_move,
     InvalidMove,
     InvalidBluff,
     IllegalMove,
@@ -47,7 +47,7 @@ class TelegramPlayer(PlayerInterface):
                     move = None
                 else:
                     move = GameMove(number, amount)
-                raise_exception_invalid_move(status, move)
+                raise_exception_if_invalid_move(status, move)
             except IllegalMove as e:
                 self.manager.show_error(e)
                 continue
