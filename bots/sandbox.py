@@ -29,7 +29,10 @@ def get_sandbox_bot(bot: Bot) -> type[PlayerInterface]:
         "itertools": itertools,
     }
     global_scope.update(local_scope)
-    exec(bot.code, global_scope, local_scope)  # todo catch syntax errors
+    try:
+        exec(bot.code, global_scope, local_scope)
+    except Exception as e:
+        raise TestNotPassedException(f"Syntax error:\n{e}")
     # print(global_scope, local_scope)
     # print(local_scope)
     # a = local_scope["Bot1"](1)

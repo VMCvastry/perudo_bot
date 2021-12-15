@@ -170,3 +170,10 @@ class Database:
             ]
         except sqlite3.Error as error:
             print(f"Error while getting all bots", error)
+
+    def get_leaderboard(self) -> list[Bot]:
+        bots = self.get_all_bots()
+        users = self.get_all_user()
+        for bot in bots:
+            bot.username = users[bot.user_id].get_name()
+        return sorted(bots, key=lambda x: x.get_win_ratio(), reverse=True)

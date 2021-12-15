@@ -24,6 +24,11 @@ class Manager:
             update, context
         )
 
+    def choose_opponent_by_id(self, update: Update, context: CallbackContext):
+        return self.active_chats[update.effective_chat.id].choose_opponent_by_id(
+            update, context
+        )
+
     def launch_duel(self, update: Update, context: CallbackContext):
         return self.active_chats[update.effective_chat.id].launch_duel(update, context)
 
@@ -47,7 +52,11 @@ showdown_handler = ConversationHandler(
     entry_points=[CommandHandler("play", manager.choose_opponent)],
     states={
         0: [
+            CallbackQueryHandler(
+                manager.choose_opponent_by_id, pattern=r"choose_by_id"
+            ),
             MessageHandler(Filters.text & ~Filters.command, manager.launch_duel),
+            CallbackQueryHandler(manager.launch_duel, pattern=r"^\d+$"),
         ],
         1: [
             CallbackQueryHandler(manager.get_dice, pattern=r"^\d$"),
@@ -58,7 +67,9 @@ showdown_handler = ConversationHandler(
         ],
         # -2: [MessageHandler(Filters.all, manager.call_timeout)],
     },
-    fallbacks=[CommandHandler("stop", manager.kill_game)],
+    fallbacks=[
+        CommandHandler("stop", manager.kill_game)
+    ],  # todo error when called before game start
     # conversation_timeout=10,
     # per_message=False,
 )

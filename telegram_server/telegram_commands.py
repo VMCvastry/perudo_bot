@@ -19,20 +19,26 @@ def callback(update: Update, context: CallbackContext):
 def get_leaderboard(update: Update, context: CallbackContext):
     db_path = "../bots.db"
     db = Database()
-    bots = db.get_all_bots()
-    leaderboard = sorted(bots, key=lambda x: x.get_win_ratio(), reverse=True)
-    users = db.get_all_user()
-    for bot in bots:
-        bot.username = users[bot.user_id].get_name()
     # [print(x) for x in leaderboard]
-    leaderboard_format = "\n".join([str(x) for x in leaderboard])
-    context.bot.send_message(chat_id=update.effective_chat.id, text=leaderboard_format)
+    leaderboard_format = (
+        f"```\n{'Name':<15} |  {'ID':^3}  | {'Author':<15} | {'Victories':10}\n\n"
+        + "\n".join([str(x) for x in db.get_leaderboard()])
+        + "\n```"
+    )
+    print(leaderboard_format)
+    context.bot.send_message(
+        chat_id=update.effective_chat.id, text=leaderboard_format, parse_mode="markdown"
+    )
 
 
 def show_upload_info(update: Update, context: CallbackContext):
     upload_info = """To learn how to write your code go to https://github.com/VMCvastry/perudo_bot, unfortunately at the moment Only python 3 is supported.
 Once you have written your Bot just drop the .py in this chat."""
-    context.bot.send_message(chat_id=update.effective_chat.id, text=upload_info)
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=upload_info,
+        disable_web_page_preview=True,
+    )
 
 
 def show_help(update: Update, context: CallbackContext):

@@ -44,26 +44,47 @@ class ShowdownManager:
         self.chat_id = None
         self.timed_out = False
         self.interrupted = False
+        self.db = Database()
 
     def choose_opponent(self, update: Update, context: CallbackContext):
+        leaderboard = self.db.get_leaderboard()
+        bot_keyboard = [
+            [InlineKeyboardButton(str(bot), callback_data=str(bot.bot_id))]
+            for bot in leaderboard
+        ]
+        bot_keyboard.append(
+            [InlineKeyboardButton("Choose by ID", callback_data="choose_by_id")]
+        )
         context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text="Choose your opponent id\nUse /leaderboard to see the available bots",
-            # reply_markup=keyboard,
+            text="Choose your opponent!",
+            reply_markup=InlineKeyboardMarkup(bot_keyboard),
+        )
+        return 0
+
+    def choose_opponent_by_id(self, update: Update, context: CallbackContext):
+        update.callback_query.answer()
+        update.callback_query.edit_message_text(
+            f"Send your opponent id\nUse /leaderboard to see the available bots"
         )
         return 0
 
     def launch_duel(self, update: Update, context: CallbackContext):
-        opponent_raw_id = update.message.text
-        try:
-            opponent_id = int(opponent_raw_id)
-        except ValueError:
-            context.bot.send_message(
-                chat_id=update.effective_chat.id, text="Id must be a number"
-            )
-            return 0
-        db = Database()
-        bot = db.get_bot(opponent_id)
+        query = update.callback_query
+        if not query:
+            opponent_raw_id = update.message.text
+            try:
+                opponent_id = int(opponent_raw_id)
+            except ValueError:
+                context.bot.send_message(
+                    chat_id=update.effective_chat.id, text="Id must be a number"
+                )
+                return 0
+        else:
+            query.answer()
+            opponent_id = int(query.data)
+
+        bot = self.db.get_bot(opponent_id)
         if bot:
             self.opponent_id = opponent_id
             context.bot.send_message(
