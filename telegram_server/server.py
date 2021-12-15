@@ -23,7 +23,9 @@ from telegram.ext import (
 #     level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 # )
 
-
+# interfacce play e leaderboard
+# download demo bot
+# add ranikng status while doing
 def main():
     try:
         token = os.environ["telegram_token"]
@@ -39,6 +41,7 @@ def main():
         CommandHandler("leaderboard", get_leaderboard),
         CommandHandler("game_info", show_rules),
         CommandHandler("upload", show_upload_info),
+        CommandHandler("help", show_help),
         # CallbackQueryHandler(callback),
         MessageHandler(Filters.document, upload_bot),
         MessageHandler(Filters.all, echo),

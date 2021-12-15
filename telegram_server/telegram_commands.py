@@ -35,6 +35,13 @@ Once you have written your Bot just drop the .py in this chat."""
     context.bot.send_message(chat_id=update.effective_chat.id, text=upload_info)
 
 
+def show_help(update: Update, context: CallbackContext):
+    upload_info = """This bot allows you to Code you very own bot to play The Perudo Dice game, /game_info to read the game rules.\n
+Use /leaderboard to see who is leading the game and use /play to play against one of the bots in the leaderboard.\n
+Use /upload to get more info on how to write your bot."""
+    context.bot.send_message(chat_id=update.effective_chat.id, text=upload_info)
+
+
 def show_rules(update: Update, context: CallbackContext):
     context.bot.send_message(chat_id=update.effective_chat.id, text=rules)
 
