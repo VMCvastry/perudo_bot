@@ -38,6 +38,9 @@ class Manager:
     def call_bluff(self, update: Update, context: CallbackContext):
         return self.active_chats[update.effective_chat.id].call_bluff(update, context)
 
+    def call_spot_on(self, update: Update, context: CallbackContext):
+        return self.active_chats[update.effective_chat.id].call_spot_on(update, context)
+
     def get_amount(self, update: Update, context: CallbackContext):
         return self.active_chats[update.effective_chat.id].get_amount(update, context)
 
@@ -61,6 +64,7 @@ showdown_handler = ConversationHandler(
         1: [
             CallbackQueryHandler(manager.get_dice, pattern=r"^\d$"),
             CallbackQueryHandler(manager.call_bluff, pattern=r"^call_bluff$"),
+            CallbackQueryHandler(manager.call_spot_on, pattern=r"^call_spot_on$"),
         ],
         2: [
             MessageHandler(Filters.text & ~Filters.command, manager.get_amount),

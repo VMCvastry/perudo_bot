@@ -26,15 +26,32 @@ class InvalidBluff(Exception):
         super().__init__(self.message)
 
 
+class InvalidSpot(Exception):
+    def __init__(self):
+        self.message = "Cannot call Spot-on on first move"
+        super().__init__(self.message)
+
+
+class InvalidSpecial(Exception):
+    def __init__(self):
+        self.message = "The only special move available are 'bluff' and 'spot on' DO NOT use the field GameMove.special,\n use the provided methods GameMove.call_bluff()/GameMove.call_spot_on() to use them"
+        super().__init__(self.message)
+
+
 def raise_exception_if_invalid_move(info, move):
 
     if not info.moves_history[-1]:
-        if move is None:
+        if move.special == "BLUFF":
             raise InvalidBluff
+        elif move.special == "SPOTON":
+            raise InvalidSpot
         else:
             return
-    if move is None:
-        return
+    if move.special is not None:
+        if move.special == "BLUFF" or move.special == "SPOTON":
+            return
+        else:
+            raise InvalidSpecial
     last = info.moves_history[-1][-1]
     if not (
         move.amount > last.amount

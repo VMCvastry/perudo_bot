@@ -7,6 +7,8 @@ from perudo_game.exceptions import (
     InvalidMove,
     InvalidBluff,
     IllegalMove,
+    InvalidSpot,
+    InvalidSpecial,
 )
 from perudo_game.game.gameMove import GameMove
 from telegram.ext import CallbackContext
@@ -43,18 +45,20 @@ class TelegramPlayer(PlayerInterface):
             print("next move", number, amount)
             self.manager.next_move = None
             try:
-                if not number:
-                    move = None
+                if number == "call_bluff":
+                    move = GameMove.call_bluff()
+                elif number == "call_spot_on":
+                    move = GameMove.call_spot_on()
                 else:
                     move = GameMove(number, amount)
                 raise_exception_if_invalid_move(status, move)
-            except IllegalMove as e:
-                self.manager.show_error(e)
-                continue
-            except InvalidMove as e:
-                self.manager.show_error(e)
-                continue
-            except InvalidBluff as e:
+            except (
+                IllegalMove,
+                InvalidMove,
+                InvalidBluff,
+                InvalidSpot,
+                InvalidSpecial,
+            ) as e:
                 self.manager.show_error(e)
                 continue
             return move

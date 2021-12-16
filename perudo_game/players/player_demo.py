@@ -21,6 +21,6 @@ class Player(PlayerInterface):
             if last.amount >= n:
                 if random.random() > 0.5:
                     return GameMove(value, last.amount + 1)
-                return None
+                return GameMove.call_bluff()
             else:
                 return GameMove(value, n)
