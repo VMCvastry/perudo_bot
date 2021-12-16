@@ -24,7 +24,6 @@ from telegram.ext import (
 # )
 
 # interfacce play e leaderboard
-# download demo bot
 # add ranikng status while doing
 def main():
     try:
@@ -41,6 +40,7 @@ def main():
         CommandHandler("leaderboard", get_leaderboard),
         CommandHandler("game_info", show_rules),
         CommandHandler("upload", show_upload_info),
+        CommandHandler("demo", send_demo_bot),
         CommandHandler("help", show_help),
         # CallbackQueryHandler(callback),
         MessageHandler(Filters.document, upload_bot),

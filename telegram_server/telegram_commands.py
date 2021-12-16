@@ -33,7 +33,8 @@ def get_leaderboard(update: Update, context: CallbackContext):
 
 def show_upload_info(update: Update, context: CallbackContext):
     upload_info = """To learn how to write your code go to https://github.com/VMCvastry/perudo_bot, unfortunately at the moment Only python 3 is supported.
-Once you have written your Bot just drop the .py in this chat."""
+Once you have written your Bot just drop the .py in this chat.
+Use /demo to download a demo bot"""
     context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=upload_info,
@@ -50,6 +51,13 @@ Use /upload to get more info on how to write your bot."""
 
 def show_rules(update: Update, context: CallbackContext):
     context.bot.send_message(chat_id=update.effective_chat.id, text=rules)
+
+
+def send_demo_bot(update: Update, context: CallbackContext):
+    context.bot.send_document(
+        chat_id=update.effective_chat.id,
+        document=open("./perudo_game/players/player_demo.py", "rb"),
+    )
 
 
 # def upload_bot(update: Update, context: CallbackContext):
