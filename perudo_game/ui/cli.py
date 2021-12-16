@@ -25,9 +25,9 @@ class CLI(UI):
         print("your dices:")
         print(numbers)
 
-    def show_result(self, result):
+    def show_result(self, result, special):
         # print("he won")
-        print(result)
+        print(result, special)
         input("continue")
 
     def show_player_move(self, move, player_id):
