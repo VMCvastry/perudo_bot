@@ -9,9 +9,9 @@ from bots.test_player import TestBot
 
 def remove_imports(text):
     text = text.splitlines()
-    for line in text:
+    for i, line in enumerate(text):
         if "import" in line:
-            text.remove(line)
+            text[i] = " "
     return "\n".join(text)
 
 
