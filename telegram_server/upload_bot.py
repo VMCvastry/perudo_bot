@@ -45,7 +45,11 @@ def upload_bot(update: Update, context: CallbackContext):
         context.bot.send_message(
             chat_id=update.effective_chat.id, text="ranking staterd"
         )
-        win_ratio = rank_and_save_bot(bot)
+
+        def send_message(message):
+            context.bot.send_message(chat_id=update.effective_chat.id, text=message)
+
+        win_ratio = rank_and_save_bot(bot, send_message)
         context.bot.send_message(
             chat_id=update.effective_chat.id, text=str(win_ratio * 100) + "% victories"
         )

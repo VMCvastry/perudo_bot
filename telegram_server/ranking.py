@@ -38,9 +38,9 @@ def find_winner(players, ui):
     return winner
 
 
-def rank_and_save_bot(bot: Bot):
+def rank_and_save_bot(bot: Bot, update_to_user):
     db = Database()
-    bots = db.get_all_bots()
+    bots = db.get_leaderboard()
     victory = 0
     defeat = 0
     exception = 0
@@ -55,11 +55,14 @@ def rank_and_save_bot(bot: Bot):
         if not winner:
             defeat += 1
             db.add_victory(enemy.bot_id)
+            update_to_user(f"You won against {enemy}")
         elif winner == 1:
             victory += 1
             db.add_defeat(enemy.bot_id)
+            update_to_user(f"You lost against {enemy}")
         elif winner == -1:
             exception += 1
+            update_to_user(f"Many Errors when playing with {enemy}")
             # db.add_exception(enemy.bot_id)
     bot.victory = victory
     bot.defeat = defeat
