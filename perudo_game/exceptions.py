@@ -53,8 +53,24 @@ def raise_exception_if_invalid_move(info, move):
         else:
             raise InvalidSpecial
     last = info.moves_history[-1][-1]
-    if not (
-        move.amount > last.amount
-        or (move.amount == last.amount and move.number > last.number)
-    ):
-        raise InvalidMove
+    if last.number == 1:
+        if move.number != 1:
+            if not (move.amount > last.amount * 2):
+                print("a")
+                raise InvalidMove
+        else:
+            if not (move.amount > last.amount):
+                print("b")
+                raise InvalidMove
+    else:
+        if move.number != 1:
+            if not (
+                move.amount > last.amount
+                or (move.amount == last.amount and move.number > last.number)
+            ):
+                print("c")
+                raise InvalidMove
+        else:
+            if not (move.amount >= last.amount // 2 + 1):
+                print("d")
+                raise InvalidMove

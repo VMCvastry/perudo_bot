@@ -52,33 +52,39 @@ class Game:
         else:
             self.next_player_id = id
 
-    def check_spot(self):
-        self.ui.show_round_check(self.game_status)
-        move = self.game_status.last_move()
+    def count(self, move):
         found = 0
         for player in self.players.values():
             found += player.numbers.count(move.number)
+            if move.number != 1:
+                found += player.numbers.count(1)
+        return found
+
+    def count_no_jolly(self, move):
+        found = 0
+        for player in self.players.values():
+            found += player.numbers.count(move.number)
+        return found
+
+    def check_spot(self):
+        self.ui.show_round_check(self.game_status)
+        move = self.game_status.last_move()
+        found = self.count_no_jolly(move)
         if found != move.amount:
             self.penalty(self.game_status.last_id(self.next_player_id))
         else:
             self.penalty(move.player_id)
         self.ui.show_result(found != move.amount, GameMove.SPOT_ON)
-        self.game_status.new_round()
-        self.start_round()
 
     def check_bluff(self):
         self.ui.show_round_check(self.game_status)
         move = self.game_status.last_move()
-        found = 0
-        for player in self.players.values():
-            found += player.numbers.count(move.number)
+        found = self.count(move)
         if found >= move.amount:
             self.penalty(self.game_status.last_id(self.next_player_id))
         else:
             self.penalty(move.player_id)
         self.ui.show_result(found >= move.amount, GameMove.BLUFF)
-        self.game_status.new_round()
-        self.start_round()
 
     def evaluate_move(self, move: GameMove):
         self.game_status.add_move(move)
@@ -107,6 +113,8 @@ class Game:
                     self.check_spot()
                 else:
                     self.check_bluff()
+                self.game_status.new_round()
+                self.start_round()
             else:
                 move.player_id = player.id
                 self.evaluate_move(move)
