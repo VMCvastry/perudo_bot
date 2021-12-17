@@ -76,24 +76,24 @@ class Game:
             player.set_rolled_dices([roll_dice() for _ in range(player.n_dices)])
 
     def start(self):
-        self.start_round()
         self.ui.show_header()
+        self.start_round()
         while self.on_going():
             player = self.get_next_player()
             self.ui.show_round(self.game_status.moves_history)
             self.ui.show_players_dices(player.numbers, player.id)
             try:
                 move = player.make_move(self.game_status.get_game_info())
+                move.player_id = player.id
             except Exception as e:
                 self.exception = PlayerException(player.id, e)
                 raise PlayerException(player.id, e)
             if not move:
-                self.ui.show_player_move(move, player.id)
+                self.ui.show_player_move(move)
                 self.check()
             else:
-                move.player_id = player.id
                 self.evaluate_move(move)
-                self.ui.show_player_move(move, player.id)
+                self.ui.show_player_move(move)
         print(f"player {self.next_player_id} won")
         self.winner = [self.next_player_id]
         return self.next_player_id

@@ -87,17 +87,13 @@ class ShowdownManager:
         bot = self.db.get_bot(opponent_id)
         if bot:
             self.opponent_id = opponent_id
-            context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text="Game is starting!\nUse /stop to interrupt the game",
-            )
             self.bot = context.bot
             self.chat_id = update.effective_chat.id
-            ui = TelegramUI(context, update.effective_chat.id, 0)
             players = {
                 0: TelegramPlayer,
                 1: get_sandbox_bot(bot),
             }
+            ui = TelegramUI(context, update.effective_chat.id, 0, players)
             self.game = Game(players, ui, [(0, TelegramPlayer(self))])
             self.thread = Thread(target=self.game.start)
             self.thread.start()

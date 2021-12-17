@@ -30,7 +30,7 @@ class UI(ABC):
         pass
 
     @abstractmethod
-    def show_player_move(self, move, player_id):
+    def show_player_move(self, move):
         pass
 
     @abstractmethod
