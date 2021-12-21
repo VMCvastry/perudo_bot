@@ -19,7 +19,9 @@ class Player(PlayerInterface):
         else:
             last = status.moves_history[-1][-1]
             if last.number == 1:
-                return GameMove(1, last.amount + 1)
+                if random.random() > 0.5:
+                    return GameMove(1, last.amount + 1)
+                return GameMove.call_bluff()
             if last.amount >= n:
                 if random.random() > 0.5:
                     return GameMove(value, last.amount + 1)

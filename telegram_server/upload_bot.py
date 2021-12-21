@@ -1,4 +1,5 @@
 import traceback
+from threading import Thread
 
 from telegram import Update
 from telegram.ext import CallbackContext
@@ -14,6 +15,7 @@ def download_file(url):
     return res
 
 
+# todo test inifite loop bot
 def upload_bot(update: Update, context: CallbackContext):
     db_path = "../bots.db"
     db = Database()
@@ -49,10 +51,7 @@ def upload_bot(update: Update, context: CallbackContext):
         def send_message(message):
             context.bot.send_message(chat_id=update.effective_chat.id, text=message)
 
-        win_ratio = rank_and_save_bot(bot, send_message)
-        context.bot.send_message(
-            chat_id=update.effective_chat.id, text=str(win_ratio * 100) + "% victories"
-        )
+        Thread(target=rank_and_save_bot, args=(bot, send_message)).start()
 
 
 # download_file(
