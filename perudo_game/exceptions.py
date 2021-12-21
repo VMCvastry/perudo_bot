@@ -15,8 +15,11 @@ class IllegalMove(Exception):
 
 
 class InvalidMove(Exception):
-    def __init__(self):
-        self.message = "You Must call a higher number of dices or the same number of dices of an higher seed"
+    def __init__(
+        self,
+        msg="You Must call a higher number of dices or the same number of dices of an higher seed",
+    ):
+        self.message = msg
         super().__init__(self.message)
 
 
@@ -57,7 +60,9 @@ def raise_exception_if_invalid_move(info, move):
         if move.number != 1:
             if not (move.amount > last.amount * 2):
                 print("a")
-                raise InvalidMove
+                raise InvalidMove(
+                    "Last call was a Jolly, you have to Double+1 that bet or call a Jolly as well"
+                )
         else:
             if not (move.amount > last.amount):
                 print("b")
@@ -73,4 +78,6 @@ def raise_exception_if_invalid_move(info, move):
         else:
             if not (move.amount >= last.amount // 2 + 1):
                 print("d")
-                raise InvalidMove
+                raise InvalidMove(
+                    "You are calling a Jolly, you have to bet at least half +1 of the previous bet"
+                )
