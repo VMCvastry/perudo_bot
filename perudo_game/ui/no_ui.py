@@ -29,7 +29,7 @@ class NoUI(UI):
         # print(numbers)
         pass
 
-    def show_result(self, result):
+    def show_result(self, result, special):
         # print("he won")
         # print(result)
         # input("continue")

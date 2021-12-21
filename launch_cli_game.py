@@ -1,7 +1,9 @@
 from perudo_game.game_core import Game
 from perudo_game.players.CLI_player import HumanPlayer
+from perudo_game.players.player_demo import Player
 from perudo_game.ui import CLI
-from players.player_v1 import Player
+
+# from players.player_v1 import Player
 
 ui = CLI()
 players = {

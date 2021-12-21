@@ -27,6 +27,7 @@ dices_keyboard = InlineKeyboardMarkup(
         ],
         [
             InlineKeyboardButton("Call Bluff", callback_data="call_bluff"),
+            InlineKeyboardButton("Call Spot On", callback_data="call_spot_on"),
         ],
     ]
 )
@@ -167,7 +168,15 @@ class ShowdownManager:
         update.callback_query.answer()
         if self.timed_out:
             return self.call_timeout()
-        self.next_move = [None, None]
+        self.next_move = ["call_bluff", None]
+        self.wait()
+        return self.ask_for_move(context.bot, update.effective_chat.id)
+
+    def call_spot_on(self, update: Update, context: CallbackContext):
+        update.callback_query.answer()
+        if self.timed_out:
+            return self.call_timeout()
+        self.next_move = ["call_spot_on", None]
         self.wait()
         return self.ask_for_move(context.bot, update.effective_chat.id)
 

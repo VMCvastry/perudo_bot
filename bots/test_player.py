@@ -62,13 +62,23 @@ def generate_numbers():
     return [random.randint(1, 6) for _ in range(n_dices)]
 
 
-def test_not_none_on_start(bot: type[PlayerInterface]):
+def test_not_special_on_start(bot: type[PlayerInterface]):
     info = generate_random_status_first_move()
     player = bot("{}")
     move, status = player.make_a_move(deepcopy(info), generate_numbers())
     return (
-        isinstance(move, GameMove) and isinstance(status, str) and is_valid_json(status)
+        isinstance(move, GameMove)
+        and isinstance(status, str)
+        and is_valid_json(status)
+        and move.special is None
     )
+
+
+def is_valid_special(move: GameMove):
+    if move.special == GameMove.BLUFF or move.special == GameMove.SPOT_ON:
+        return True
+    else:
+        raise False
 
 
 def test_valid_move(bot: type[PlayerInterface]):
@@ -76,7 +86,10 @@ def test_valid_move(bot: type[PlayerInterface]):
     player = bot("{}")
     move, status = player.make_a_move(deepcopy(info), generate_numbers())
     return (
-        (isinstance(move, GameMove) and is_valid_move(info, move) or move is None)
+        (
+            isinstance(move, GameMove)
+            and (is_valid_move(info, move) or is_valid_special(move))
+        )
         and isinstance(status, str)
         and is_valid_json(status)
     )
@@ -97,7 +110,7 @@ class TestBot:
     def test_not_none_on_start(self):
         valid = True
         for _ in range(self.n_tests):
-            valid = valid and test_not_none_on_start(self.bot)
+            valid = valid and test_not_special_on_start(self.bot)
         return valid
 
     def test_valid_move(self):

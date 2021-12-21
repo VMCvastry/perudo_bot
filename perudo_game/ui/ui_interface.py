@@ -26,7 +26,7 @@ class UI(ABC):
         pass
 
     @abstractmethod
-    def show_result(self, result):
+    def show_result(self, result, special):
         pass
 
     @abstractmethod
