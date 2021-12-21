@@ -13,7 +13,6 @@ def roll_dice() -> int:
     return random.randint(1, 6)
 
 
-# todo esatto and jolly
 class Game:
     def __init__(
         self,

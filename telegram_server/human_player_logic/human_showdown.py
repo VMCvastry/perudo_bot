@@ -44,6 +44,9 @@ class Manager:
     def get_amount(self, update: Update, context: CallbackContext):
         return self.active_chats[update.effective_chat.id].get_amount(update, context)
 
+    def ask_for_move(self, update: Update, context: CallbackContext):
+        return self.active_chats[update.effective_chat.id].ask_for_move(update, context)
+
     def kill_game(self, update: Update, context: CallbackContext):
         manager_to_kill = self.active_chats[update.effective_chat.id]
         del self.active_chats[update.effective_chat.id]
@@ -67,6 +70,8 @@ showdown_handler = ConversationHandler(
             CallbackQueryHandler(manager.call_spot_on, pattern=r"^call_spot_on$"),
         ],
         2: [
+            CallbackQueryHandler(manager.get_amount, pattern=r"^\d$"),
+            CallbackQueryHandler(manager.ask_for_move, pattern=r"^back$"),
             MessageHandler(Filters.text & ~Filters.command, manager.get_amount),
         ],
         # -2: [MessageHandler(Filters.all, manager.call_timeout)],

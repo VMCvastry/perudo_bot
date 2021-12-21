@@ -13,6 +13,9 @@ class TelegramUI(UI):
         self.player_id = player_id
         self.bots = bots
 
+    def player_name(self, player_id):
+        return self.bots[player_id].get_player_name()
+
     def show_header(self):
         self.bot.send_message(
             chat_id=self.chat_id,
@@ -25,9 +28,7 @@ class TelegramUI(UI):
             if player.id == self.player_id:
                 message += f"You    {'🎲'*player.n_dices}\n"
             else:
-                message += (
-                    f"{self.bots[player.id].get_player_name()}  {'🎲'*player.n_dices}\n"
-                )
+                message += f"{self.player_name(player.id)}  {'🎲'*player.n_dices}\n"
         self.bot.send_message(
             chat_id=self.chat_id,
             text=message,
@@ -62,17 +63,17 @@ class TelegramUI(UI):
             if move.special == GameMove.BLUFF:
                 self.bot.send_message(
                     chat_id=self.chat_id,
-                    text=f"Player {move.player_id} called the Bluff",
+                    text=f"Player {self.player_name(move.player_id)} called the Bluff",
                 )
             elif move.special == GameMove.SPOT_ON:
                 self.bot.send_message(
                     chat_id=self.chat_id,
-                    text=f"Player {player_id} called Spot On",
+                    text=f"Player {self.player_name(move.player_id)} called Spot On",
                 )
             else:
                 self.bot.send_message(
                     chat_id=self.chat_id,
-                    text=f"{self.bots[move.player_id].get_player_name()}  called {get_face_emoji(move.number) * move.amount}",
+                    text=f"{self.player_name(move.player_id)}  called {get_face_emoji(move.number) * move.amount}",
                     # text=f"{self.bots[move.player_id].get_player_name()}  called {move.amount} X {get_face_emoji(move.number)}",
                 )
 
@@ -104,5 +105,5 @@ class TelegramUI(UI):
     def show_winner(self, player_id):
         self.bot.send_message(
             chat_id=self.chat_id,
-            text=f"Player {player_id} has Won!",
+            text=f"Player {self.player_name(player_id)} has Won!",
         )
