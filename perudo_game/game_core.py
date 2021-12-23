@@ -119,6 +119,6 @@ class Game:
             else:
                 self.evaluate_move(move)
                 self.ui.show_player_move(move)
-        print(f"player {self.next_player_id} won")
+        self.ui.show_winner(self.next_player_id)
         self.winner = [self.next_player_id]
         return self.next_player_id

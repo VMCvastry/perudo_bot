@@ -154,17 +154,13 @@ class ShowdownManager:
     def ask_for_move(self, update: Update, context: CallbackContext, no_edit=False):
         if self.game.winner:
             self.thread.join()
-            context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text=f"player {self.game.winner[0]} won",
-            )
             self.timed_out = True
             return ConversationHandler.END
         if self.game.exception:
             self.thread.join()
             context.bot.send_message(
                 chat_id=update.effective_chat.id,
-                text=f"Game interrupted, an error occurred with player {self.game.exception.player_id}:\n{str(self.game.exception)}",
+                text=f"Game interrupted, an error occurred with player {'Enemy' if self.game.exception.player_id else 'You'}:\n{str(self.game.exception)}",
             )
             self.timed_out = True
             return ConversationHandler.END

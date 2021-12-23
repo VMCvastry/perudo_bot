@@ -70,12 +70,12 @@ class TelegramUI(UI):
             if move.special == GameMove.BLUFF:
                 self.bot.send_message(
                     chat_id=self.chat_id,
-                    text=f"Player {self.player_name(move.player_id)} called the Bluff",
+                    text=f"{self.player_name(move.player_id)} called the Bluff",
                 )
             elif move.special == GameMove.SPOT_ON:
                 self.bot.send_message(
                     chat_id=self.chat_id,
-                    text=f"Player {self.player_name(move.player_id)} called Spot On",
+                    text=f"{self.player_name(move.player_id)} called Spot On",
                 )
             else:
                 self.bot.send_message(
@@ -112,5 +112,5 @@ class TelegramUI(UI):
     def show_winner(self, player_id):
         self.bot.send_message(
             chat_id=self.chat_id,
-            text=f"Player {self.player_name(player_id)} has Won!",
+            text=f"{self.player_name(player_id)} has Won!",
         )

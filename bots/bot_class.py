@@ -13,10 +13,11 @@ class Bot:
     username: str | None = None
 
     def get_win_ratio(self):
-        return (
+        return round(
             0
             if not (self.victory + self.defeat)
-            else round(self.victory / (self.victory + self.defeat), 2)
+            else round(self.victory / (self.victory + self.defeat), 2),
+            2,
         )
 
     def __str__(self):
