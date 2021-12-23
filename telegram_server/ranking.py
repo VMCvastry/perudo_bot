@@ -1,13 +1,11 @@
-import time
 from collections import Counter
-from threading import Thread
+from multiprocessing import Process, Array
 
 from bots import get_sandbox_bot
 from bots.bot_class import Bot
 from database import Database
 from perudo_game.exceptions import PlayerException
 from perudo_game.game_core import Game
-from perudo_game.players import PlayerInterface
 
 
 def play_game(players, results, i):
@@ -20,18 +18,18 @@ def play_game(players, results, i):
 
 
 def find_winner(players):
-    n = 25
-    results = [-1] * n
+    n_games = 25
+    results = Array("i", [-1] * n_games)
     threads = set()
-    for i in range(n):
-        # play_game(players, ui, results, i)
-        t = Thread(target=play_game, args=(players, results, i))
+    for i in range(n_games):
+        t = Process(target=play_game, args=(players, results, i))
         threads.add(t)
         t.start()
-        time.sleep(0.001)
     for t in threads:
         t.join()
-    print(results)
+        t.terminate()
+    results = list(results)
+    # print(results)
     print(Counter(results))
     winner = Counter(results).most_common(1)[0][0]
     return winner

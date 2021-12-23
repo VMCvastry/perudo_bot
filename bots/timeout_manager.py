@@ -41,7 +41,8 @@ def execute_with_timeout(function, args: tuple, timeout=3):
     if p1.exitcode is None:
         time.sleep(1)
         if p1.exitcode is None:
-            print(f"Oops, {p1} timeouts!")
-            raise TimeoutError
+            # print(f"Oops, {p1} timeouts!")
+            p1.terminate()
+            raise TimeoutError("Timeout Error, Move took too long")
     p1.terminate()
     return q.get() if not q.empty() else None
