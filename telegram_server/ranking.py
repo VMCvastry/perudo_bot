@@ -8,25 +8,24 @@ from database import Database
 from perudo_game.exceptions import PlayerException
 from perudo_game.game_core import Game
 from perudo_game.players import PlayerInterface
-from perudo_game.ui.no_ui import NoUI
 
 
-def play_game(players, ui, results, i):
+def play_game(players, results, i):
     try:
-        results[i] = Game(players, ui).start()
+        results[i] = Game(players).start()
     except PlayerException as e:
         results[i] = -1
         print(e)
     return
 
 
-def find_winner(players, ui):
+def find_winner(players):
     n = 25
     results = [-1] * n
     threads = set()
     for i in range(n):
         # play_game(players, ui, results, i)
-        t = Thread(target=play_game, args=(players, ui, results, i))
+        t = Thread(target=play_game, args=(players, results, i))
         threads.add(t)
         t.start()
         time.sleep(0.001)
@@ -46,12 +45,11 @@ def rank_and_save_bot(bot: Bot, update_to_user):
     exception = 0
     player = get_sandbox_bot(bot)
     for enemy in bots:
-        ui = NoUI()
         players = {
             0: get_sandbox_bot(enemy),
             1: player,
         }
-        winner = find_winner(players, ui)
+        winner = find_winner(players)
         if not winner:
             defeat += 1
             db.add_victory(enemy.bot_id)

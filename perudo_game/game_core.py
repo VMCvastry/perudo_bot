@@ -7,6 +7,7 @@ from perudo_game.game.player_entity import PlayerEntity
 from perudo_game.players import PlayerInterface
 from perudo_game.players.CLI_player import HumanPlayer
 from perudo_game.ui import UI, CLI
+from perudo_game.ui.no_ui import NoUI
 
 
 def roll_dice() -> int:
@@ -17,7 +18,7 @@ class Game:
     def __init__(
         self,
         game_players: dict[int, type[PlayerInterface]],
-        selected_ui: UI,
+        selected_ui: UI = NoUI(),
         actual_players=[],  # not a problem since default type is not actually used
     ):
 
