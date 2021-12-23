@@ -44,7 +44,13 @@ class TelegramUI(UI):
     def show_round_check(self, game: GameStatus):
         self.bot.send_message(
             chat_id=self.chat_id,
-            text="the dices are\n" + str([p.numbers for p in game.players]),
+            text="The dices are\n"
+            + "\n".join(
+                [
+                    "".join([get_face_emoji(face) for face in sorted(p.numbers)])
+                    for p in game.players
+                ]
+            ),
         )
         print("the dices are")
         print([p.numbers for p in game.players])
@@ -53,7 +59,8 @@ class TelegramUI(UI):
         if player_id == self.player_id:
             self.bot.send_message(
                 chat_id=self.chat_id,
-                text="Your dices:   " + " ".join(map(str, sorted(numbers))),
+                text="Your dices:   "
+                + " ".join([get_face_emoji(face) for face in sorted(numbers)]),
             )
         print("your dices:")
         print(numbers)

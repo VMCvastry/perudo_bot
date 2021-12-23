@@ -76,9 +76,7 @@ showdown_handler = ConversationHandler(
         ],
         # -2: [MessageHandler(Filters.all, manager.call_timeout)],
     },
-    fallbacks=[
-        CommandHandler("stop", manager.kill_game)
-    ],  # todo error when called before game start
+    fallbacks=[CommandHandler("stop", manager.kill_game)],
     # conversation_timeout=10,
     # per_message=False,
 )

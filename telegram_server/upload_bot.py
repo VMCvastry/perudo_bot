@@ -15,7 +15,6 @@ def download_file(url):
     return res
 
 
-# todo test inifite loop bot
 def upload_bot(update: Update, context: CallbackContext):
     db_path = "../bots.db"
     db = Database()

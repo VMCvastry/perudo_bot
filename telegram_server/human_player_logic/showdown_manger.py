@@ -44,6 +44,11 @@ amount_keyboard = InlineKeyboardMarkup(
             InlineKeyboardButton("X 6", callback_data="6"),
         ],
         [
+            InlineKeyboardButton("X 7", callback_data="7"),
+            InlineKeyboardButton("X 8", callback_data="8"),
+            InlineKeyboardButton("X 9", callback_data="9"),
+        ],
+        [
             InlineKeyboardButton("Change Face", callback_data="back"),
         ],
     ]
@@ -167,7 +172,8 @@ class ShowdownManager:
         if no_edit:
             context.bot.send_message(
                 chat_id=update.effective_chat.id,
-                text="Choose a dice face to rise the bet on\nOtherwise Call the bluff",
+                # text="Choose a dice face to rise the bet on\nOtherwise Call the bluff",
+                text="Make your move",
                 reply_markup=dices_keyboard,
             )
         else:
@@ -229,16 +235,12 @@ class ShowdownManager:
         self.wait()
         return self.ask_for_move(update, context, no_edit=True)
 
-    def back_to_face(self, update: Update, context: CallbackContext):
-        update.callback_query.answer()
-
-        return 1
-
     def kill_game(self, update: Update, context: CallbackContext):
         context.bot.send_message(
             chat_id=update.effective_chat.id,
             text="The game was Interrupted",
         )
         self.interrupted = True
-        self.thread.join()
+        if self.thread:
+            self.thread.join()
         return ConversationHandler.END
