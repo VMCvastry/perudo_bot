@@ -24,7 +24,6 @@ from threading import Thread
 
 
 def process_returner(queue, function, args):
-    # time.sleep(5)
     queue.put(function(*args))
 
 

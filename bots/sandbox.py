@@ -14,10 +14,8 @@ removed_functions = ["print", "eval", "exec"]
 
 def get_sandbox_bot(bot: Bot) -> type[PlayerInterface]:
     global_scope = {"__builtins__": __builtins__.copy()}
-    # print(global_scope["__builtins__"])
     for f in removed_functions:
         del global_scope["__builtins__"][f]
-    # print(PlayerInterface.__dict__)
     local_scope = {
         "GameInfo": GameInfo,
         "PlayerInterface": PlayerInterface,
@@ -33,10 +31,6 @@ def get_sandbox_bot(bot: Bot) -> type[PlayerInterface]:
         exec(bot.code, global_scope, local_scope)
     except Exception as e:
         raise TestNotPassedException(f"Syntax error:\n{e}")
-    # print(global_scope, local_scope)
-    # print(local_scope)
-    # a = local_scope["Bot1"](1)
-    # print(a.get_player_name())
     if "Player" not in local_scope:
         raise TestNotPassedException("No 'class Player()' definition")
     return local_scope["Player"]
